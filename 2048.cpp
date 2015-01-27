@@ -63,6 +63,11 @@ public:
     void draw();
         void clearConsole();
         void backgroundTextAtt(int color);
+
+        void draw_row(int row);
+        void upper_border();
+        void lower_border();
+        void interior_border();
 };
 
 class SaveFile
