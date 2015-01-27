@@ -8,7 +8,18 @@
 #include <assert.h>
 
 const int DIM = 4,
-          META = 2048;
+          META = 2048,
+          upper_left_corner   = 218,
+          upper_right_corner  = 191,
+          downer_lenf_corner  = 192,
+          downer_right_corner = 217,
+          carfax              = 197,
+          no_left_carfax      = 195,
+          no_right_carfax     = 180,
+          no_upper_carfax     = 194,
+          no_downer_carfax    = 193,
+          upright_line        = 179,
+          horizontal_line     = 196;
 
 enum tDirection {left=37,up,right,down};
 
@@ -146,6 +157,24 @@ void Drawer::draw()
         std::cout << std::endl;
     }
     std::cout << std::endl;
+}
+
+void Drawer::cpConsoleOut(int cp)
+{
+          SetConsoleOutputCP(cp);
+}
+
+void fontConsole()
+{
+          HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+          CONSOLE_FONT_INFOEX cfi;
+          cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
+          cfi.FontWeight = 400;
+          cfi.nFont = 1;
+          cfi.dwFontSize.X = 12; cfi.dwFontSize.Y = 20;
+          cfi.FontFamily = 54;
+          wcscpy_s(cfi.FaceName, L"LucidaConsole");
+          SetCurrentConsoleFontEx(hStdout, false, &cfi);
 }
 
 void Drawer::clearConsole(){system("cls");}
