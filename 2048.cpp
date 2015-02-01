@@ -8,8 +8,9 @@
 #include <assert.h>
 
 const int DIM = 4,
-          META = 2048,
-          upper_left_corner   = 218,
+          META = 2048;
+
+const int upper_left_corner   = 218,
           upper_right_corner  = 191,
           downer_lenf_corner  = 192,
           downer_right_corner = 217,
@@ -105,6 +106,7 @@ private:
     Drawer drawer;
 
     friend Drawer;
+	friend SaveFile;
 
 public:
     Game2048();
@@ -174,7 +176,7 @@ void fontConsole()
           cfi.dwFontSize.X = 12; cfi.dwFontSize.Y = 20;
           cfi.FontFamily = 54;
           wcscpy_s(cfi.FaceName, L"LucidaConsole");
-          SetCurrentConsoleFontEx(hStdout, false, &cfi);
+          SetCurrentConsoleFontEx(hStdOut, false, &cfi);
 }
 
 void Drawer::clearConsole(){system("cls");}
