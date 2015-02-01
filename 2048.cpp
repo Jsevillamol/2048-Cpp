@@ -85,15 +85,15 @@ public:
 class SaveFile
 {
 private:
-    std::fstream file;
+    std::string file;
     Game2048 *game;
 
 public:
     SaveFile(Game2048 *g);
     ~SaveFile();
 
-    void save();
-    void load();
+    bool save();
+    bool load();
 };
 
 class Game2048
@@ -104,6 +104,7 @@ private:
 
     Listener listener;
     Drawer drawer;
+	SaveFile savefile;
 
     friend Drawer;
 	friend SaveFile;
@@ -163,20 +164,20 @@ void Drawer::draw()
 
 void Drawer::cpConsoleOut(int cp)
 {
-          SetConsoleOutputCP(cp);
+	SetConsoleOutputCP(cp);
 }
 
-void fontConsole()
+void Drawer::fontConsole()
 {
-          HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-          CONSOLE_FONT_INFOEX cfi;
-          cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
-          cfi.FontWeight = 400;
-          cfi.nFont = 1;
-          cfi.dwFontSize.X = 12; cfi.dwFontSize.Y = 20;
-          cfi.FontFamily = 54;
-          wcscpy_s(cfi.FaceName, L"LucidaConsole");
-          SetCurrentConsoleFontEx(hStdOut, false, &cfi);
+	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_FONT_INFOEX cfi;
+	cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
+	cfi.FontWeight = 400;
+	cfi.nFont = 1;
+	cfi.dwFontSize.X = 12; cfi.dwFontSize.Y = 20;
+	cfi.FontFamily = 54;
+	wcscpy_s(cfi.FaceName, L"LucidaConsole");
+	SetCurrentConsoleFontEx(hStdOut, false, &cfi);
 }
 
 void Drawer::clearConsole(){system("cls");}
@@ -191,45 +192,61 @@ SaveFile::SaveFile(Game2048 *g): game(g) {}
 
 SaveFile::~SaveFile()
 {
-    if(file.is_open()) file.close();
 }
 
-void SaveFile::save()
+bool SaveFile::save()
 {
+	char option;
+	std::cout << "Do you want to save your current game? (y/n)" << std::endl;
+    std::cin >> option;
 
+	if (option = 'y')
+	{
+		std::cout << "How do you want to call your save file?" << std::endl;
+		getline(std::cin, file);
+	}
+
+	return false;
 }
 
-void SaveFile::load()
+bool SaveFile::load()
 {
-    std::string name;
+    std::fstream in;
     std::cout << "Which save file do you want to load? (ENTER for New Game)" << std::endl;
-    getline(std::cin, name);
-    if (name != "")
+    getline(std::cin, file);
+    if (in != "")
     {
-        file.open(name, std::fstream::in);
-        if(file.is_open())
+        in.open(file, std::fstream::in);
+        if(in.is_open())
         {
             //Load the board
             for (int i=0; i<DIM; i++)
             for (int j=0; j<DIM; j++)
             {
-                file >> game->board(i,j);
+                in >> game->board(i,j);
             }
-            file.close();
+            in.close();
+			return true;
         }
-        else std::cout << "File not found" << std::endl;
+        else 
+		{
+			std::cout << "File not found" << std::endl;
+			return false;
+		}
     }
+	else return false;
 }
 
 Game2048::Game2048():
-    score(0), drawer(this)
+    score(0), drawer(this), savefile(this)
     {
-        init();
+        if(!savefile.load()) init();
+		drawer.draw();
     }
 
 void Game2048::init()
 {
-    gen_tile(); gen_tile(); drawer.draw();
+    gen_tile(); gen_tile(); 
 }
 
 void Game2048::run()
@@ -322,10 +339,10 @@ bool Game2048::combine_tiles(tDirection dir)
 
 void Game2048::getCoordMov(tDirection dir, tCoord &init, tCoord &incr)
 {
-    init.x = (dir == down) ?DIM-1 :0;
+    init.x = (dir == down)  ?DIM-1 :0;
     init.y = (dir == right) ?DIM-1 :0;
-    incr.x = (dir == down) ?-1 :1;
-    incr.y = (dir == right) ?-1 :1;
+    incr.x = (dir == down)  ?-1    :1;
+    incr.y = (dir == right) ?-1    :1;
 }
 
 bool Game2048::moves_left()
