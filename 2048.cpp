@@ -59,6 +59,8 @@ class Drawer;
 class SaveFile;
 class Game2048;
 
+int log2(int x);
+
 class Listener
 {
 public:
@@ -71,17 +73,17 @@ private:
 	Game2048 *game;
 public:
 	Drawer(Game2048 *g);
-	void cpConsoleOut(int cp);
-	void fontConsole();
+		void cpConsoleOut(int cp);
+		void fontConsole();
 	void draw();
-	void clearConsole();
-	void backgroundTextAtt(int color);
+		void clearConsole();
+		void backgroundTextAtt(int color);
 
-	void draw_row(int row);
-	void horizontal();
-	void upper_border();
-	void lower_border();
-	void interior_border();
+		void draw_row(int row);
+		void upper_border();
+		void lower_border();
+		void interior_border();
+			void horizontal();
 };
 
 class SaveFile
@@ -113,16 +115,16 @@ private:
 
 public:
 	Game2048();
-	void init();
+		void init();
 	void run();
-	void update(tDirection dir);
-	void gen_tile();
-	int max_tile();
-	bool tilt(tDirection dir);
-	bool combine_tiles(tDirection dir);
-	void getCoordMov(tDirection dir, tCoord &init, tCoord &incr);
-	bool moves_left();
-	bool is_full();
+		void update(tDirection dir);
+			void gen_tile();
+			int max_tile();
+			bool tilt(tDirection dir);
+			bool combine_tiles(tDirection dir);
+				void getCoordMov(tDirection dir, tCoord &init, tCoord &incr);
+			bool moves_left();
+			bool is_full();
 };
 
 inline int rand_int(int m);
@@ -273,9 +275,9 @@ void Drawer::draw_row(int row)
 			{
 				backgroundTextAtt(log2(game->board(i,k)));
 
-				std::cout << std::setw(8);
+				std::cout << std::setw(7) << " ";
 
-				backgroundTextAtt(log2(0));
+				backgroundTextAtt(0);
 
 				std::cout << char(upright_line);
 			}	
