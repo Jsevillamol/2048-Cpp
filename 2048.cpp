@@ -12,13 +12,13 @@ const int DIM = 4,
 
 const int upper_left_corner   = 218,
           upper_right_corner  = 191,
-          downer_lenf_corner  = 192,
-          downer_right_corner = 217,
+          lower_lenf_corner   = 192,
+          lower_right_corner  = 217,
           carfax              = 197,
           no_left_carfax      = 195,
           no_right_carfax     = 180,
           no_upper_carfax     = 194,
-          no_downer_carfax    = 193,
+          no_lower_carfax     = 193,
           upright_line        = 179,
           horizontal_line     = 196;
 
@@ -72,7 +72,7 @@ public:
     Drawer(Game2048 *g);
         void cpConsoleOut(int cp);
         void fontConsole();
-    void draw();
+    	void draw();
         void clearConsole();
         void backgroundTextAtt(int color);
 
@@ -118,7 +118,7 @@ public:
             int max_tile();
             bool tilt(tDirection dir);
             bool combine_tiles(tDirection dir);
-                void getCoordMov(tDirection dir, tCoord &init, tCoord &incr);
+            void getCoordMov(tDirection dir, tCoord &init, tCoord &incr);
             bool moves_left();
                 bool is_full();
 };
