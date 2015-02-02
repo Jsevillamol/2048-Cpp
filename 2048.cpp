@@ -486,7 +486,7 @@ inline int rand_int(int m)
 int log2(int x)
 {
 	int i;
-	for (i = 1; pow(2, i) < x; i++);
+	for (i = 0; pow(2, i) < x; i++);
 	return i;
 }
 
