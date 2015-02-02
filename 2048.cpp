@@ -154,21 +154,6 @@ game(g)
 
 }
 
-void Drawer::draw()
-{
-	//system("pause");
-	clearConsole();
-	for (int i = 0; i<DIM; i++)
-	{
-		for (int j = 0; j<DIM; j++)
-		{
-			std::cout << game->board(i, j) << " ";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
-}
-
 void Drawer::cpConsoleOut(int cp)
 {
 	SetConsoleOutputCP(cp);
@@ -185,6 +170,21 @@ void Drawer::fontConsole()
 	cfi.FontFamily = 54;
 	wcscpy_s(cfi.FaceName, L"LucidaConsole");
 	SetCurrentConsoleFontEx(hStdOut, false, &cfi);
+}
+
+void Drawer::draw()
+{
+	//system("pause");
+	clearConsole();
+
+	upper_border();
+
+	for (int i = 0; i < DIM; i++)
+	{
+		draw_row(i);
+		if (i<(DIM-1)) interior_border();
+		else lower_border();
+	}
 }
 
 void Drawer::clearConsole(){ system("cls"); }
@@ -230,14 +230,8 @@ void Drawer::lower_border()
 	{
 		horizontal();
 
-		if (i != (DIM - 1))
-		{
-			std::cout << char(no_lower_carfax);
-		}
-		else
-		{
-			std::cout << char(lower_right_corner) << std::endl;
-		}
+		if (i != (DIM - 1))	std::cout << char(no_lower_carfax);
+		else std::cout << char(lower_right_corner) << std::endl;
 	}
 }
 
@@ -263,34 +257,22 @@ void Drawer::interior_border()
 
 void Drawer::draw_row(int row)
 {
-	upper_border();
-
-	for (int i = 0; i < DIM; i++)
+	for (int j = 0; j < 5; j++)
 	{
-		for (int j = 0; j < 5; j++)
+		std::cout << char(upright_line);
+
+		for (int k = 0; k < DIM; k++)
 		{
+			backgroundTextAtt(log2(game->board(row,k)));
+
+			if (j==2) std::cout << std::setw(7) << game->board(row,k);
+			else std::cout << std::setw(7) << " ";
+
+			backgroundTextAtt(0);
+
 			std::cout << char(upright_line);
-
-			for (int k = 0; k < DIM; k++)
-			{
-				backgroundTextAtt(log2(game->board(i,k)));
-
-				std::cout << std::setw(7) << " ";
-
-				backgroundTextAtt(0);
-
-				std::cout << char(upright_line);
-			}	
-			std::cout << std::endl;
-		}
-		if (i<(DIM-1))
-		{
-			interior_border();
-		}
-		else
-		{
-			lower_border();
-		}
+		}	
+		std::cout << std::endl;
 	}
 }
 
@@ -494,17 +476,5 @@ int main()
 {
 	srand(time(NULL));
 	Game2048 test;
-	Drawer drawer(&test);
-	drawer.draw_row(0);
-	int n;
-	std::cin >> n;
-	if (n == 1)
-	{
-		std::cin.sync();
-		std::cin.get();
-	}
-	else
-	{
-		test.run();
-	}
+	test.run();
 }
