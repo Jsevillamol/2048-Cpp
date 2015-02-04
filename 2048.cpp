@@ -94,7 +94,6 @@ private:
 
 public:
 	SaveFile(Game2048 *g);
-	~SaveFile();
 
 	bool save();
 	bool load();
@@ -133,6 +132,7 @@ inline int rand_int(int m);
 
 int Listener::listen()
 {
+	//todo: loop until game key is pressed
 	int key; DWORD cNumRead; INPUT_RECORD irInBuf;
 	HANDLE hStdIn = GetStdHandle(STD_INPUT_HANDLE);
 	do{
@@ -265,7 +265,7 @@ void Drawer::draw_row(int row)
 		{
 			backgroundTextAtt(log2(game->board(row,k)));
 
-			if (j==2) std::cout << std::setw(7) << game->board(row,k);
+			if (j==2 && game->board(row,k)!=0) std::cout << std::setw(7) << game->board(row,k);
 			else std::cout << std::setw(7) << " ";
 
 			backgroundTextAtt(0);
@@ -278,20 +278,36 @@ void Drawer::draw_row(int row)
 
 SaveFile::SaveFile(Game2048 *g) : game(g) {}
 
-SaveFile::~SaveFile()
-{
-}
-
 bool SaveFile::save()
 {
 	char option;
 	std::cout << "Do you want to save your current game? (y/n)" << std::endl;
+	std::cin.clear();
 	std::cin >> option;
 
-	if (option = 'y')
+	if (option == 'y')
 	{
 		std::cout << "How do you want to call your save file?" << std::endl;
+		std::cin.sync();
 		getline(std::cin, file);
+		//todo: default savefile name
+		std::fstream out(file, std::ios::out);
+		if(out.is_open())
+		{
+			for(int row=0; row < DIM; row++)
+			{
+				for(int col=0; col < DIM; col++)
+				{
+					out << game->board(row, col) << " ";
+				}
+				out << std::endl;
+			}
+		}
+		else 
+		{
+			std::cout << "Error! The file couldn't be opened." << std::endl;
+			return false;
+		}
 	}
 
 	return false;
@@ -302,7 +318,7 @@ bool SaveFile::load()
 	std::fstream in;
 	std::cout << "Which save file do you want to load? (ENTER for New Game)" << std::endl;
 	getline(std::cin, file);
-	/*if (in != "")
+	if (file != "")
 	{
 		in.open(file, std::fstream::in);
 		if (in.is_open())
@@ -322,23 +338,26 @@ bool SaveFile::load()
 			return false;
 		}
 	}
-	else*/ return false;
+	else return false;
 }
 
 Game2048::Game2048() :
 score(0), drawer(this), savefile(this)
 {
-	if (!savefile.load()) init();
-	drawer.draw();
+	srand(time(NULL));
 }
 
 void Game2048::init()
 {
+	//todo Load empty board
 	gen_tile(); gen_tile();
 }
 
 void Game2048::run()
 {
+	if (!savefile.load()) init();
+	drawer.draw();
+
 	int key = up;
 
 	while (max_tile() < META && key != VK_ESCAPE && moves_left())
@@ -347,17 +366,23 @@ void Game2048::run()
 		update(tDirection(key));
 		drawer.draw();
 	}
+
+	if (key == VK_ESCAPE) savefile.save();
 }
 
 void Game2048::update(tDirection dir)
 {
-	/*The three steps must always be executed,
+	/*The two steps must always be executed,
 	and if one changes the board, then we have to gen_tile*/
 	bool change = false;
 	change |= tilt(dir);
 	change |= combine_tiles(dir);
-	change |= tilt(dir);
-	if (change) gen_tile();
+	
+	if (change) 
+	{
+		tilt(dir);
+		gen_tile();
+	}
 }
 
 void Game2048::gen_tile()
@@ -474,7 +499,6 @@ int log2(int x)
 
 int main()
 {
-	srand(time(NULL));
 	Game2048 test;
 	test.run();
 }
