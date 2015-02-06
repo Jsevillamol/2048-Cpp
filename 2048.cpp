@@ -11,17 +11,17 @@
 const int DIM = 4,
 META = 2048;
 
-const int upper_left_corner = 218,
-		  upper_right_corner = 191,
-		  lower_lenf_corner = 192,
-		  lower_right_corner = 217,
-		  carfax = 197,
-		  no_left_carfax = 195,
-		  no_right_carfax = 180,
-		  no_upper_carfax = 194,
-		  no_lower_carfax = 193,
-		  upright_line = 179,
-		  horizontal_line = 196;
+const int upper_left_corner  = 218,
+ 	  upper_right_corner = 191
+ 	  lower_lenf_corner  = 192,
+	  lower_right_corner = 217,
+	  carfax             = 197,
+	  no_left_carfax     = 195,
+	  no_right_carfax    = 180,
+	  no_upper_carfax    = 194,
+	  no_lower_carfax    = 193,
+	  upright_line       = 179,
+	  horizontal_line    = 196;
 
 enum tDirection { left = 37, up, right, down };
 
@@ -290,7 +290,7 @@ bool SaveFile::save()
 		std::cout << "How do you want to call your save file?" << std::endl;
 		std::cin.sync();
 		getline(std::cin, file);
-		//todo: default savefile name
+		if (file == "") file = "savefile.txt"//todo: default savefile name
 		std::fstream out(file, std::ios::out);
 		if(out.is_open())
 		{
