@@ -12,7 +12,7 @@ const int DIM = 4,
 META = 2048;
 
 const int upper_left_corner  = 218,
- 	  upper_right_corner = 191
+ 	  upper_right_corner = 191,
  	  lower_lenf_corner  = 192,
 	  lower_right_corner = 217,
 	  carfax             = 197,
@@ -33,8 +33,8 @@ struct tCoord
 	{
 		tCoord coor(x, y);
 
-		if (dir == left  && y>0)     coor.y--;
-		else if (dir == up    && x>0)     coor.x--;
+		if      (dir == left  && y>0)       coor.y--;
+		else if (dir == up    && x>0)       coor.x--;
 		else if (dir == right && y<DIM - 1) coor.y++;
 		else if (dir == down  && x<DIM - 1) coor.x++;
 
@@ -73,17 +73,16 @@ private:
 	Game2048 *game;
 public:
 	Drawer(Game2048 *g);
-		void cpConsoleOut(int cp);
-		void fontConsole();
+	void cpConsoleOut(int cp);
+	void fontConsole();
 	void draw();
-		void clearConsole();
-		void backgroundTextAtt(int color);
-
-		void draw_row(int row);
-		void upper_border();
-		void lower_border();
-		void interior_border();
-			void horizontal();
+	void clearConsole();		
+	void backgroundTextAtt(int color);
+	void draw_row(int row);
+	void upper_border();
+	void lower_border();
+	void interior_border();
+	void horizontal();
 };
 
 class SaveFile
@@ -114,16 +113,16 @@ private:
 
 public:
 	Game2048();
-		void init();
+	void init();
 	void run();
-		void update(tDirection dir);
-			void gen_tile();
-			int max_tile();
-			bool tilt(tDirection dir);
-			bool combine_tiles(tDirection dir);
-				void getCoordMov(tDirection dir, tCoord &init, tCoord &incr);
-			bool moves_left();
-			bool is_full();
+	void update(tDirection dir);
+	void gen_tile();
+	int max_tile();
+	bool tilt(tDirection dir);
+	bool combine_tiles(tDirection dir);
+	void getCoordMov(tDirection dir, tCoord &init, tCoord &incr);
+	bool moves_left();
+	bool is_full();
 };
 
 inline int rand_int(int m);
@@ -250,7 +249,6 @@ void Drawer::interior_border()
 		else
 		{
 			std::cout << char(no_right_carfax) << std::endl;
-			
 		}
 	}
 }
@@ -260,16 +258,16 @@ void Drawer::draw_row(int row)
 	for (int j = 0; j < 5; j++)
 	{
 		std::cout << char(upright_line);
-
+		
 		for (int k = 0; k < DIM; k++)
 		{
 			backgroundTextAtt(log2(game->board(row,k)));
-
+			
 			if (j==2 && game->board(row,k)!=0) std::cout << std::setw(7) << game->board(row,k);
 			else std::cout << std::setw(7) << " ";
-
+			
 			backgroundTextAtt(0);
-
+			
 			std::cout << char(upright_line);
 		}	
 		std::cout << std::endl;
@@ -302,6 +300,7 @@ bool SaveFile::save()
 				}
 				out << std::endl;
 			}
+			return true;
 		}
 		else 
 		{
