@@ -50,6 +50,8 @@ struct tBoard
 
 	tBoard() : board() {}
 
+	void reset() { memset(board, 0, sizeof(board)); }
+
 	int& operator [](const tCoord coord) { return board[coord.x][coord.y]; }
 	int& operator ()(const int i, const int j) { return board[i][j]; }
 };
@@ -131,17 +133,20 @@ inline int rand_int(int m);
 
 int Listener::listen()
 {
-	//todo: loop until game key is pressed
 	int key; DWORD cNumRead; INPUT_RECORD irInBuf;
 	HANDLE hStdIn = GetStdHandle(STD_INPUT_HANDLE);
 	do{
-		ReadConsoleInput(hStdIn, &irInBuf, 1, &cNumRead);
-	} while (irInBuf.EventType != KEY_EVENT);
-	if (irInBuf.Event.KeyEvent.uChar.AsciiChar == 0){
-		ReadConsoleInput(hStdIn, &irInBuf, 1, &cNumRead);
-		key = irInBuf.Event.KeyEvent.wVirtualKeyCode;
-	}
-	else key = irInBuf.Event.KeyEvent.uChar.AsciiChar;
+		do{
+			ReadConsoleInput(hStdIn, &irInBuf, 1, &cNumRead);
+		} while (irInBuf.EventType != KEY_EVENT);
+		if (irInBuf.Event.KeyEvent.uChar.AsciiChar == 0){
+			ReadConsoleInput(hStdIn, &irInBuf, 1, &cNumRead);
+			key = irInBuf.Event.KeyEvent.wVirtualKeyCode;
+		}
+		else key = irInBuf.Event.KeyEvent.uChar.AsciiChar;
+	}while(key != VK_ESCAPE && key != VK_LEFT && key != VK_UP 
+		&& key != VK_RIGHT  && key != VK_DOWN);
+		  //loop until game key is pressed
 	return key;
 }
 
@@ -285,11 +290,11 @@ bool SaveFile::save()
 
 	if (option == 'y')
 	{
-		std::cout << "How do you want to call your save file?" << std::endl;
+		std::cout << "How do you want to call your save file? (ENTER for \"" << file << "\")" << std::endl;
 		std::cin.sync();
-		getline(std::cin, file);
-		if (file == "") file = "savefile.txt"//todo: default savefile name
-		std::fstream out(file, std::ios::out);
+		std::string s;
+		getline(std::cin, s);
+		std::fstream out(((s == "") ?file :s), std::ios::out);
 		if(out.is_open())
 		{
 			for(int row=0; row < DIM; row++)
@@ -337,7 +342,11 @@ bool SaveFile::load()
 			return false;
 		}
 	}
-	else return false;
+	else 
+	{
+		file = "savefile.txt";
+		return false;
+	}
 }
 
 Game2048::Game2048() :
@@ -348,7 +357,7 @@ score(0), drawer(this), savefile(this)
 
 void Game2048::init()
 {
-	//todo Load empty board
+	board.reset();
 	gen_tile(); gen_tile();
 }
 
