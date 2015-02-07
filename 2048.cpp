@@ -189,6 +189,7 @@ void Drawer::draw()
 		if (i<(DIM-1)) interior_border();
 		else lower_border();
 	}
+	std::cout << game->score << std::endl;
 }
 
 void Drawer::clearConsole(){ system("cls"); }
