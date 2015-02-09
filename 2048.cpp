@@ -122,7 +122,7 @@ public:
 	void save();
 
 	void show();
-	bool new_highscore(int score);
+	bool update();
 };
 
 class Game2048
