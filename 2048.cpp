@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <iomanip>
 
-const int DIM = 4,
+const int DIM = 8, //default dimension
 META = 2048;
 
 const int upper_left_corner  = 218,
@@ -44,18 +44,6 @@ struct tCoord
 	bool operator != (tCoord coor){ return x != coor.x || y != coor.y; }
 };
 
-struct tBoard
-{
-	int board[DIM][DIM];
-
-	tBoard() : board() {}
-
-	void reset() { memset(board, 0, sizeof(board)); }
-
-	int& operator [](const tCoord coord) { return board[coord.x][coord.y]; }
-	int& operator ()(const int i, const int j) { return board[i][j]; }
-};
-
 struct tScore
 {
 	std::string name;
@@ -66,6 +54,7 @@ struct tScore
 	friend std::istream& operator >> (std::istream& in, tScore score);
 };
 
+class tBoard;
 class Listener;
 class Drawer;
 class SaveFile;
@@ -73,6 +62,28 @@ class HighScore;
 class Game2048;
 
 int log2(int x);
+
+class tBoard
+{
+private:
+	int** board;
+	int dim;
+
+public:
+	tBoard(int d=DIM);
+	~tBoard();
+
+	void create(int d);
+	void destroy();
+
+	void reset();
+	void changeDimension(const int d);
+
+	int getDim() { return dim; }
+
+	int& operator [](const tCoord coord) { return board[coord.x][coord.y]; }
+	int& operator ()(const int i, const int j) { return board[i][j]; }
+};
 
 class Listener
 {
@@ -158,6 +169,51 @@ inline int rand_int(int m);
 
 //////////////////////////////////////////////////////////////
 
+tBoard::tBoard(int d):
+	dim(d)
+{
+	create(d);
+}
+
+tBoard::~tBoard()
+{
+	destroy();
+}
+
+void tBoard::create(int d)
+{
+	board = new int*[dim];
+	for (int i=0; i<dim; i++)
+		board[i] = new int[dim]();
+}
+
+void tBoard::destroy()
+{
+	for (int i=0; i<dim; i++)
+		delete[] board[i];
+	delete[] board;
+	board = nullptr;
+}
+
+void tBoard::changeDimension(const int d)
+{
+	if (d != dim)
+	{
+		destroy();
+		create(d);
+		dim=d;
+	}
+}
+
+void tBoard::reset()
+{
+	for (int i=0; i<dim; i++)
+	for (int j=0; j<dim; j++)
+		board[i][j] = 0;
+}
+
+/////////////////////////////////
+
 int Listener::listen()
 {
 	int key; DWORD cNumRead; INPUT_RECORD irInBuf;
@@ -211,10 +267,10 @@ void Drawer::draw()
 
 	upper_border();
 
-	for (int i = 0; i < DIM; i++)
+	for (int i = 0; i < game->board.getDim(); i++)
 	{
 		draw_row(i);
-		if (i<(DIM-1)) interior_border();
+		if (i<(game->board.getDim()-1)) interior_border();
 		else lower_border();
 	}
 	std::cout << "Score: " << game->score << std::endl;
@@ -240,11 +296,11 @@ void Drawer::upper_border()
 {
 	std::cout << char(upper_left_corner);
 
-	for (int i = 0; i < DIM; i++)
+	for (int i = 0; i < game->board.getDim(); i++)
 	{
 		horizontal();
 
-		if (i != (DIM-1))
+		if (i != (game->board.getDim()-1))
 		{
 			std::cout << char(no_upper_carfax);
 		}
@@ -259,11 +315,11 @@ void Drawer::lower_border()
 {
 	std::cout << char(lower_lenf_corner);
 
-	for (int i = 0; i < DIM; i++)
+	for (int i = 0; i < game->board.getDim(); i++)
 	{
 		horizontal();
 
-		if (i != (DIM - 1))	std::cout << char(no_lower_carfax);
+		if (i != (game->board.getDim() - 1))	std::cout << char(no_lower_carfax);
 		else std::cout << char(lower_right_corner) << std::endl;
 	}
 }
@@ -272,11 +328,11 @@ void Drawer::interior_border()
 {
 	std::cout << char(no_left_carfax);
 
-	for (int i = 0; i < DIM; i++)
+	for (int i = 0; i < game->board.getDim(); i++)
 	{
 		horizontal();
 
-		if (i != (DIM-1))
+		if (i != (game->board.getDim()-1))
 		{
 			std::cout << char(carfax);
 		}
@@ -293,7 +349,7 @@ void Drawer::draw_row(int row)
 	{
 		std::cout << char(upright_line);
 		
-		for (int k = 0; k < DIM; k++)
+		for (int k = 0; k < game->board.getDim(); k++)
 		{
 			backgroundTextAtt(log2(game->board(row,k)));
 			
@@ -326,9 +382,9 @@ bool SaveFile::save()
 		std::fstream out(((s == "") ?file :s), std::ios::out);
 		if(out.is_open())
 		{
-			for(int row=0; row < DIM; row++)
+			for(int row=0; row < game->board.getDim(); row++)
 			{
-				for(int col=0; col < DIM; col++)
+				for(int col=0; col < game->board.getDim(); col++)
 				{
 					out << game->board(row, col) << " ";
 				}
@@ -357,8 +413,8 @@ bool SaveFile::load()
 		if (in.is_open())
 		{
 			//Load the board
-			for (int i = 0; i < DIM; i++)
-				for (int j = 0; j < DIM; j++)
+			for (int i = 0; i < game->board.getDim(); i++)
+				for (int j = 0; j < game->board.getDim(); j++)
 				{
 					in >> game->board(i, j);
 				}
@@ -381,7 +437,7 @@ bool SaveFile::load()
 ///////////////////////////////////////////
 
 Game2048::Game2048() :
-score(0), drawer(this), savefile(this)
+	score(0), drawer(this), savefile(this)
 {
 	srand(time(NULL));
 }
@@ -430,7 +486,7 @@ void Game2048::gen_tile()
 
 	int rx, ry;
 	do {
-		rx = rand_int(DIM); ry = rand_int(DIM);
+		rx = rand_int(board.getDim()); ry = rand_int(board.getDim());
 	} while (board(rx, ry) != 0);
 
 	board(rx, ry) = ((rand() / RAND_MAX)<0.95) ? 2 : 4;
@@ -454,8 +510,8 @@ bool Game2048::tilt(tDirection dir)
 
 	getCoordMov(dir, init, incr);
 
-	for (int i = init.x; 0 <= i && i<DIM; i += incr.x)
-		for (int j = init.y; 0 <= j && j<DIM; j += incr.y)
+	for (int i = init.x; 0 <= i && i<board.getDim(); i += incr.x)
+		for (int j = init.y; 0 <= j && j<board.getDim(); j += incr.y)
 		{
 			while (board(i, j) != 0 && board[tCoord(i, j).next(dir)] == 0)
 			{
@@ -472,8 +528,8 @@ bool Game2048::combine_tiles(tDirection dir)
 {
 	tCoord init, incr; bool change = false;
 	getCoordMov(dir, init, incr);
-	for (int i = init.x; 0 <= i && i<DIM; i += incr.x)
-		for (int j = init.y; 0 <= j && j<DIM; j += incr.y)
+	for (int i = init.x; 0 <= i && i<board.getDim(); i += incr.x)
+		for (int j = init.y; 0 <= j && j<board.getDim(); j += incr.y)
 		{
 			if (board(i, j) != 0 && (tCoord(i, j) != tCoord(i, j).next(dir))) //Check for borders
 			{
@@ -491,8 +547,8 @@ bool Game2048::combine_tiles(tDirection dir)
 
 void Game2048::getCoordMov(tDirection dir, tCoord &init, tCoord &incr)
 {
-	init.x = (dir == down) ? DIM - 1 : 0;
-	init.y = (dir == right) ? DIM - 1 : 0;
+	init.x = (dir == down) ? board.getDim() - 1 : 0;
+	init.y = (dir == right) ? board.getDim() - 1 : 0;
 	incr.x = (dir == down) ? -1 : 1;
 	incr.y = (dir == right) ? -1 : 1;
 }
@@ -516,8 +572,8 @@ bool Game2048::moves_left()
 bool Game2048::is_full()
 {
 	bool full = true;
-	for (int i = 0; i<DIM && full; i++)
-		for (int j = 0; j<DIM && full; j++)
+	for (int i = 0; i<board.getDim() && full; i++)
+		for (int j = 0; j<board.getDim() && full; j++)
 		{
 			if (board(i, j) == 0) full = false;
 		}
