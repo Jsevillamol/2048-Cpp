@@ -56,9 +56,18 @@ struct tBoard
 	int& operator ()(const int i, const int j) { return board[i][j]; }
 };
 
+struct tScore
+{
+	std::string name;
+	int score;
+
+	tScore(std::string n="XXX", int s=0): name(n), score(s) {}
+};
+
 class Listener;
 class Drawer;
 class SaveFile;
+class HighScore;
 class Game2048;
 
 int log2(int x);
@@ -75,16 +84,16 @@ private:
 	Game2048 *game;
 public:
 	Drawer(Game2048 *g);
-	void cpConsoleOut(int cp);
-	void fontConsole();
+		inline void cpConsoleOut(int cp);
+		void fontConsole();
 	void draw();
-	void clearConsole();		
-	void backgroundTextAtt(int color);
-	void draw_row(int row);
-	void upper_border();
-	void lower_border();
-	void interior_border();
-	void horizontal();
+		void clearConsole();		
+		void backgroundTextAtt(int color);
+		void draw_row(int row);
+		void upper_border();
+		void lower_border();
+		void interior_border();
+		void horizontal();
 };
 
 class SaveFile
@@ -98,6 +107,22 @@ public:
 
 	bool save();
 	bool load();
+};
+
+class HighScore
+{
+private:
+	Game2048 *game;
+	tScore highScores[10];
+public:
+	HighScore(Game2048 *g);
+	~HighScore();
+
+	bool load();
+	void save();
+
+	void show();
+	bool new_highscore(int score);
 };
 
 class Game2048
@@ -117,14 +142,14 @@ public:
 	Game2048();
 	void init();
 	void run();
-	void update(tDirection dir);
-	void gen_tile();
-	int max_tile();
-	bool tilt(tDirection dir);
-	bool combine_tiles(tDirection dir);
-	void getCoordMov(tDirection dir, tCoord &init, tCoord &incr);
-	bool moves_left();
-	bool is_full();
+		void update(tDirection dir);
+			void gen_tile();
+			int max_tile();
+			bool tilt(tDirection dir);
+			bool combine_tiles(tDirection dir);
+				void getCoordMov(tDirection dir, tCoord &init, tCoord &incr);
+			bool moves_left();
+			bool is_full();
 };
 
 inline int rand_int(int m);
@@ -158,7 +183,7 @@ game(g)
 
 }
 
-void Drawer::cpConsoleOut(int cp)
+inline void Drawer::cpConsoleOut(int cp)
 {
 	SetConsoleOutputCP(cp);
 }
@@ -189,7 +214,7 @@ void Drawer::draw()
 		if (i<(DIM-1)) interior_border();
 		else lower_border();
 	}
-	std::cout << game->score << std::endl;
+	std::cout << "Score: " << game->score << std::endl;
 }
 
 void Drawer::clearConsole(){ system("cls"); }
