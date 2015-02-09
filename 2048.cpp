@@ -62,6 +62,8 @@ struct tScore
 	int score;
 
 	tScore(std::string n="XXX", int s=0): name(n), score(s) {}
+	friend std::ostream& operator << (std::ostream& out, tScore score);
+	friend std::istream& operator >> (std::istream& in, tScore score);
 };
 
 class Listener;
@@ -103,7 +105,7 @@ private:
 	Game2048 *game;
 
 public:
-	SaveFile(Game2048 *g);
+	SaveFile(Game2048 *g): game(g) {}
 
 	bool save();
 	bool load();
@@ -175,12 +177,13 @@ int Listener::listen()
 	return key;
 }
 
+/////////////////////////////////////////////////////////////
+
 Drawer::Drawer(Game2048 *g) :
 game(g)
 {
 	fontConsole();
 	cpConsoleOut(850);
-
 }
 
 inline void Drawer::cpConsoleOut(int cp)
@@ -305,7 +308,7 @@ void Drawer::draw_row(int row)
 	}
 }
 
-SaveFile::SaveFile(Game2048 *g) : game(g) {}
+///////////////////////////////////
 
 bool SaveFile::save()
 {
@@ -374,6 +377,8 @@ bool SaveFile::load()
 		return false;
 	}
 }
+
+///////////////////////////////////////////
 
 Game2048::Game2048() :
 score(0), drawer(this), savefile(this)
