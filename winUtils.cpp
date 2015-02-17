@@ -1,11 +1,11 @@
 #include "winUtils.h"
 
-inline void Drawer::cpConsoleOut(int cp)
+inline void cpConsoleOut(int cp)
 {
 	SetConsoleOutputCP(cp);
 }
 
-void Drawer::fontConsole()
+void fontConsole()
 {
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_FONT_INFOEX cfi;
@@ -18,7 +18,7 @@ void Drawer::fontConsole()
 	SetCurrentConsoleFontEx(hStdOut, false, &cfi);
 }
 
-void Drawer::backgroundTextAtt(int color)
+void backgroundTextAtt(int color)
 {
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdOut, 15 | (color << 4));
