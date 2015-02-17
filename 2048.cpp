@@ -97,11 +97,8 @@ private:
 	Game2048 *game;
 public:
 	Drawer(Game2048 *g);
-		inline void cpConsoleOut(int cp);
-		void fontConsole();
 	void draw();
 		void clearConsole();		
-		void backgroundTextAtt(int color);
 		void draw_row(int row);
 		void upper_border();
 		void lower_border();
