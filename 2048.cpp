@@ -75,11 +75,8 @@ private:
 	Game2048 *game;
 public:
 	Drawer(Game2048 *g);
-	void cpConsoleOut(int cp);
-	void fontConsole();
 	void draw();
 	void clearConsole();		
-	void backgroundTextAtt(int color);
 	void draw_row(int row);
 	void upper_border();
 	void lower_border();
@@ -158,24 +155,6 @@ game(g)
 
 }
 
-void Drawer::cpConsoleOut(int cp)
-{
-	SetConsoleOutputCP(cp);
-}
-
-void Drawer::fontConsole()
-{
-	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_FONT_INFOEX cfi;
-	cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
-	cfi.FontWeight = 400;
-	cfi.nFont = 1;
-	cfi.dwFontSize.X = 12; cfi.dwFontSize.Y = 20;
-	cfi.FontFamily = 54;
-	wcscpy_s(cfi.FaceName, L"LucidaConsole");
-	SetCurrentConsoleFontEx(hStdOut, false, &cfi);
-}
-
 void Drawer::draw()
 {
 	//system("pause");
@@ -193,12 +172,6 @@ void Drawer::draw()
 }
 
 void Drawer::clearConsole(){ system("cls"); }
-
-void Drawer::backgroundTextAtt(int color)
-{
-	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hStdOut, 15 | (color << 4));
-}
 
 void Drawer::horizontal()
 {
