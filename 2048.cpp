@@ -499,6 +499,7 @@ bool HighScore::load()
 		{
 			file >> highScore[i];
 		}
+		file.close();
 		return true;
 	}
 	else return false;
@@ -506,12 +507,30 @@ bool HighScore::load()
 
 void HighScore::save()
 {
-
+	ofstream file;
+	string name = "score.txt";
+	
+	file.open(name);
+	
+	if (file.is_open())
+	{
+		for (int i=0; i<10; i++)
+		{
+			file << highScore[i];
+		}
+		file.close();
+	}
+	else std::cout << "Error, archivo " << name << " no encontrado" << std::endl;
 }
 
 void HighScore::show()
 {
-
+	load();
+	
+	for (int i=0; i<10; i++)
+	{
+		std::cout << highScore[i] << std::endl;
+	}
 }
 
 void HighScore::update()
