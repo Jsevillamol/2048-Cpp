@@ -53,6 +53,7 @@ struct tScore
 	friend std::istream& operator >> (std::istream& in, tScore score);
 };
 
+class tMenu;
 class tBoard;
 class Listener;
 class Drawer;
@@ -61,6 +62,16 @@ class HighScore;
 class Game2048;
 
 int log2(int x);
+int digitoEntre(int a,int b);
+
+class tMenu
+{
+private:
+	Game2048 game;
+public:
+	void menuDim();
+	int menuIni();
+};
 
 class tBoard
 {
@@ -164,6 +175,32 @@ public:
 inline int rand_int(int m);
 
 //////////////////////////////////////////////////////////////
+
+void tMenu::menuDim()
+{
+	int otherdim;
+
+	std::cout << "4- Dimension 4x4" << std::endl
+		  << "5- Dimension 5x5" << std::endl
+		  << "6- Dimension 6x6" << std::endl
+		  << "7- Dimension 7x7" << std::endl
+		  << "8- Dimension 8x8" << std::endl;
+
+	otherdim = digitoEntre(4,8);
+
+	game.board.changeDimension(otherdim);
+
+	game.run();
+}
+
+int tMenu::menuIni()
+{
+	std::cout << "1- Jugar"   << std::endl
+		  << "2- Records" << std::endl
+		  << "0- Salir"   << std::endl;
+
+	return digitoEntre(0, 2);
+}
 
 tBoard::tBoard(int d):
 	dim(d)
@@ -614,6 +651,32 @@ int log2(int x)
 	int i;
 	for (i = 0; pow(2, i) < x; i++);
 	return i;
+}
+
+int digitoEntre(int a, int b)
+{
+	int digito = -1;
+
+	do
+	{
+		std::cin.sync(); //Por si quedan datos basura en el buffer
+		std::cin >> digito;
+
+		if (std::cin.fail())
+		{
+			std::cout << "Error! Introduce un digito" << std::endl;
+			std::cin.clear();
+		}
+
+		else if (digito < a || digito > b)
+		{
+			std::cout << "Error! Introduce un digito entre " << a << " y " << b << std::endl;
+			digito = -1;
+		}
+
+	} while (digito == -1);
+
+	return digito;
 }
 
 int main()
