@@ -97,7 +97,7 @@ private:
 public:
 	Drawer(Game2048 *g);
 	void draw();
-		void clearConsole();		
+		void clearConsole();
 		void draw_row(int row);
 		void upper_border();
 		void lower_border();
@@ -223,7 +223,7 @@ int Listener::listen()
 			key = irInBuf.Event.KeyEvent.wVirtualKeyCode;
 		}
 		else key = irInBuf.Event.KeyEvent.uChar.AsciiChar;
-	}while(key != VK_ESCAPE && key != VK_LEFT && key != VK_UP 
+	}while(key != VK_ESCAPE && key != VK_LEFT && key != VK_UP
 		&& key != VK_RIGHT  && key != VK_DOWN);
 		  //loop until game key is pressed
 	return key;
@@ -344,18 +344,18 @@ void Drawer::draw_row(int row)
 	for (int j = 0; j < 5; j++)
 	{
 		std::cout << char(upright_line);
-		
+
 		for (int k = 0; k < game->board.getDim(); k++)
 		{
 			backgroundTextAtt(log2(game->board(row,k)));
-			
+
 			if (j==2 && game->board(row,k)!=0) std::cout << std::setw(7) << game->board(row,k);
 			else std::cout << std::setw(7) << " ";
-			
+
 			backgroundTextAtt(0);
-			
+
 			std::cout << char(upright_line);
-		}	
+		}
 		std::cout << std::endl;
 	}
 }
@@ -388,7 +388,7 @@ bool SaveFile::save()
 			}
 			return true;
 		}
-		else 
+		else
 		{
 			std::cout << "Error! The file couldn't be opened." << std::endl;
 			return false;
@@ -423,7 +423,7 @@ bool SaveFile::load()
 			return false;
 		}
 	}
-	else 
+	else
 	{
 		file = "savefile.txt";
 		return false;
@@ -431,6 +431,34 @@ bool SaveFile::load()
 }
 
 ///////////////////////////////////////////
+
+HighScore::HighScore(game2048 *g): game(g)
+{
+    if(!load()) std::cout<<"File not found";
+}
+
+bool HighScore::load()
+{
+    //TODO
+}
+
+void HighScore::save()
+{
+    //TODO
+}
+
+void HighScore::show()
+{
+
+}
+
+void HighScore::update()
+{
+    //Check if score is a highscore
+    //If it is, ask for a name and place highscore in the array, moving the lower highscores to the right
+}
+
+////////////////////////////////////////////
 
 Game2048::Game2048() :
 	score(0), drawer(this), savefile(this)
@@ -468,8 +496,8 @@ void Game2048::update(tDirection dir)
 	bool change = false;
 	change |= tilt(dir);
 	change |= combine_tiles(dir);
-	
-	if (change) 
+
+	if (change)
 	{
 		tilt(dir);
 		gen_tile();
