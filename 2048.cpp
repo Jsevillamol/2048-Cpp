@@ -53,6 +53,18 @@ struct tScore
 	friend std::istream& operator >> (std::istream& in, tScore score);
 };
 
+std::ostream& operator << (std::ostream& out, tScore score)
+{
+    out << score.name << "/t" << score.score;
+    return out;
+}
+
+std::istream& operator >> (std::istream& in, tScore score)
+{
+    in >> score.name >> score.score;
+    return in;
+}
+
 class tMenu;
 class tBoard;
 class Listener;
@@ -478,23 +490,23 @@ bool HighScore::load()
 {
 	string name = "score.txt";
 	ifstream file;
-	
+
 	file.open(name);
 
-	if (file.is_open()) 
+	if (file.is_open())
 	{
 		for (int i=0; i<10; i++)
 		{
 			file >> highScore[i];
 		}
-		return true;	
+		return true;
 	}
 	else return false;
 }
 
 void HighScore::save()
 {
-    
+
 }
 
 void HighScore::show()
