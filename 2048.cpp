@@ -476,12 +476,25 @@ HighScore::HighScore(game2048 *g): game(g)
 
 bool HighScore::load()
 {
-    //TODO
+	string name = "score.txt";
+	ifstream file;
+	
+	file.open(name);
+
+	if (file.is_open()) 
+	{
+		for (int i=0; i<10; i++)
+		{
+			file >> highScore[i];
+		}
+		return true;	
+	}
+	else return false;
 }
 
 void HighScore::save()
 {
-    //TODO
+    
 }
 
 void HighScore::show()
