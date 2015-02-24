@@ -79,7 +79,7 @@ int digitoEntre(int a,int b);
 class tMenu
 {
 private:
-	Game2048 *game;
+	Game2048 game;
 public:
 	void menuDim();
 	int menuIni();
@@ -556,11 +556,11 @@ void HighScore::update()
 	string name;
     //Check if score is a highscore
     //If it is, ask for a name and place highscore in the array, moving the lower highscores to the right
-	for (i=0; highScore[i]>=score && i<10; i++){}
+	for (i=0; highScore[i]>=game.score && i<10; i++){}
 	
-	if (highScore[i] < score)
+	if (highScore[i] < game.score)
 	{
-		for (int k=9; k>=i; k--)
+		for (int k=9; k>i; k--)
 		{
 			highScore[k] = highScore[k-1];
 		}
