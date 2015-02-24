@@ -463,7 +463,6 @@ bool SaveFile::save()
 			return false;
 		}
 	}
-
 	return false;
 }
 
@@ -545,8 +544,6 @@ void HighScore::save()
 
 void HighScore::show()
 {
-	load();
-	
 	for (int i=0; i<10; i++)
 	{
 		std::cout << highScore[i] << std::endl;
@@ -555,8 +552,28 @@ void HighScore::show()
 
 void HighScore::update()
 {
+	string name;
     //Check if score is a highscore
     //If it is, ask for a name and place highscore in the array, moving the lower highscores to the right
+	for (int i=0; highScore[i]>=score && i<10; i++)
+	{
+		if (highScore[i] < score)
+		{
+			for (int k=i; k<(9-i); k++)
+			{
+				highScore[k+1] = highScore[k];
+			}
+			std::cout << "What is your name?:" << std::endl;
+			std::cin.clear;
+			std::cin >> name;
+			
+			score.name = name;
+			score.score = score;
+			
+			highScore[i] = score.name << "\t" << score.score;
+			
+		}
+	}
 }
 
 ////////////////////////////////////////////
