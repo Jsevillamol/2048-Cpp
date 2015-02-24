@@ -79,10 +79,11 @@ int digitoEntre(int a,int b);
 class tMenu
 {
 private:
-	Game2048 game;
+	Game2048 *game;
 public:
 	void menuDim();
 	int menuIni();
+	void start();
 };
 
 class tBoard
@@ -166,9 +167,11 @@ private:
 	Listener listener;
 	Drawer drawer;
 	SaveFile savefile;
+	HighScore highscore;
 
 	friend Drawer;
 	friend SaveFile;
+	friend HighScore;
 
 public:
 	Game2048();
@@ -211,7 +214,24 @@ int tMenu::menuIni()
 		  << "2- Records" << std::endl
 		  << "0- Salir"   << std::endl;
 
-	return digitoEntre(0, 2);
+	return digitoEntre(0,2);
+}
+
+void tMenu::start()
+{
+	int seleccion = menuIni();
+	
+	do
+	{
+		if      (seleccion == 1)
+		{
+			menuDim();
+		}
+		else if (seleccion == 2)
+		{
+			game.highscore.show();
+		}
+	}while (seleccion != 0);
 }
 
 tBoard::tBoard(int d):
