@@ -8,9 +8,9 @@
 #include <iomanip>
 
 const int DIM = 8, //default dimension
-META = 2048;
-
-const int upper_left_corner  = 218,
+	  META = 2048,
+	  //drawer constants
+	  upper_left_corner  = 218,
  	  upper_right_corner = 191,
  	  lower_lenf_corner  = 192,
 	  lower_right_corner = 217,
