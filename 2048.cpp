@@ -8,7 +8,7 @@
 #include <iomanip>
 
 const int DIM = 8, //default dimension
-	  META = 2048,
+	  GOAL = 2048,
 	  //drawer constants
 	  upper_left_corner  = 218,
  	  upper_right_corner = 191,
@@ -162,7 +162,7 @@ class Game2048
 {
 private:
 	tBoard board;
-	int score;
+	int score, last_score, goal;
 
 	Listener listener;
 	Drawer drawer;
@@ -329,6 +329,10 @@ void Drawer::draw()
 {
 	//system("pause");
 	clearConsole();
+	
+	std::cout << "Move: "  << game->last_score << setw(3)
+	          << "Score: " << game->score      << setw(3) 
+	          << "Goal: "  << GOAL          << std::endl;
 
 	upper_border();
 
@@ -336,9 +340,12 @@ void Drawer::draw()
 	{
 		draw_row(i);
 		if (i<(game->board.getDim()-1)) interior_border();
-		else lower_border();
+		else
+		{
+			lower_border();
+			
+		}
 	}
-	std::cout << "Score: " << game->score << std::endl;
 }
 
 void Drawer::clearConsole(){ system("cls"); }
@@ -675,7 +682,8 @@ bool Game2048::combine_tiles(tDirection dir)
 				{
 					board(i, j) = 0;
 					board[tCoord(i, j).next(dir)] *= 2;
-					score += board[tCoord(i, j).next(dir)];
+					last_score = board[tCoord(i, j).next(dir)];
+					score += last_score;
 					change = true;
 				}
 			}
