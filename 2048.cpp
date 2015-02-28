@@ -178,7 +178,7 @@ private:
 public:
 	Game2048();
 	void init();
-	void carrie_on();
+	void change_goal();
 	void run();
 		void update(tDirection dir);
 			void gen_tile();
