@@ -8,8 +8,9 @@
 #include <iomanip>
 
 const int DIM = 8, //default dimension
-	  GOAL = 2048,
-	  MAX_GOAL = 1048576,
+	  GOAL = 2048, //default goal
+	  LOW_EXP_GOAL = 5,
+	  MAX_EXP_GOAL = 20,
 	  //drawer constants
 	  upper_left_corner  = 218,
  	  upper_right_corner = 191,
@@ -355,7 +356,8 @@ void Drawer::draw()
 		draw_row(i);
 		if (i<(game->board.getDim()-1)) interior_border();
 		else
-		{
+		{      
+
 			lower_border();
 		}
 	}
@@ -608,19 +610,15 @@ void Game2048::init()
 
 void Game2048::change_goal()
 {
-	int newGoal;
-	goal = GOAL; //defult goal
+	int newGoal, exponential;
 	
-	std::cout << "What goal do you choose? (ENTER for 2048)" << std::endl;
-	std::cin  >> newGoal;
+	std::cout << "What two-exponential do you choose as goal? (ENTER for 10)" << std::endl;
 	
-	if (newGoal == "") goal = GOAL;
-	else
-	{
-		if () std::cout << "Error, the goal must be a two-exponential" << std::endl;
-		else if (goal > MAX_GOAL) std::cout << "Error, the goal cannot be over " << MAX_GOAL << std::endl;
-		else goal = newGoal;
-	}
+	exponential = digitoEntre(LOW_EXP_GOAL,MAX_EXP_GOAL);
+	
+	if (exponential == "") goal = GOAL;
+	
+	else goal = pow(2,exponential);
 }
 
 void Game2048::run()
