@@ -9,6 +9,7 @@
 
 const int DIM = 8, //default dimension
 	  GOAL = 2048,
+	  MAX_GOAL = 1048576,
 	  //drawer constants
 	  upper_left_corner  = 218,
  	  upper_right_corner = 191,
@@ -83,6 +84,7 @@ private:
 public:
 	void menuDim();
 	int menuIni();
+	int menuGoal();
 	void start();
 };
 
@@ -176,6 +178,7 @@ private:
 public:
 	Game2048();
 	void init();
+	void carrie_on();
 	void run();
 		void update(tDirection dir);
 			void gen_tile();
@@ -214,6 +217,16 @@ int tMenu::menuIni()
 		  << "2- Records" << std::endl
 		  << "0- Salir"   << std::endl;
 
+	return digitoEntre(0,2);
+}
+
+int tMenu::menuGoal()
+{
+	std::cout << "Has alcanzado la meta, que quieres hacer?: " << std::endl
+	          << "1- Continuar "                               << std::endl
+	          << "2- Reiniciar "                               << std::endl
+	          << "0- Salir "                                   << std::endl;
+	
 	return digitoEntre(0,2);
 }
 
@@ -593,18 +606,60 @@ void Game2048::init()
 	gen_tile(); gen_tile();
 }
 
+void Game2048::change_goal()
+{
+	int newGoal;
+	goal = GOAL; //defult goal
+	
+	std::cout << "What goal do you choose? (ENTER for 2048)" << std::endl;
+	std::cin  >> newGoal;
+	
+	if (newGoal == "") goal = GOAL;
+	else
+	{
+		if () std::cout << "Error, the goal must be a two-exponential" << std::endl;
+		else if (goal > MAX_GOAL) std::cout << "Error, the goal cannot be over " << MAX_GOAL << std::endl;
+		else goal = newGoal;
+	}
+}
+
 void Game2048::run()
 {
 	if (!savefile.load()) init();
 	drawer.draw();
 
-	int key = up;
+	int key = up, what_to_do;
+	
+	change_goal();
 
-	while (max_tile() < META && key != VK_ESCAPE && moves_left())
+	while (key != VK_ESCAPE && moves_left())
 	{
-		key = listener.listen();
-		update(tDirection(key));
-		drawer.draw();
+		if (max_tile() == goal)
+		{
+			if (goal < MAX_GOAL)
+			{
+				what_to_do = menuGoal();
+				
+				if (what_to_do == 1)
+				{
+					key = listener.listen();
+					update(tDirection(key));
+					drawer.draw();	
+				}
+				else if (what_to_do == 2)
+				{
+					menuDim();
+				}
+				else
+			}
+			else std::cout << "Error, you have already reached the maximun goal" << std::endl;
+		}
+		else
+		{
+			key = listener.listen();
+			update(tDirection(key));
+			drawer.draw();
+		}
 	}
 
 	if (key == VK_ESCAPE) savefile.save();
