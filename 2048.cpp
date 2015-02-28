@@ -76,6 +76,7 @@ class Game2048;
 
 int log2(int x);
 int digitoEntre(int a,int b);
+void linea();
 
 class tMenu
 {
@@ -213,19 +214,19 @@ void tMenu::menuDim()
 
 int tMenu::menuIni()
 {
-	std::cout << "1- Jugar"   << std::endl
+	std::cout << "1- Play"   << std::endl
 		  << "2- Records" << std::endl
-		  << "0- Salir"   << std::endl;
+		  << "0- Exit"   << std::endl;
 
 	return digitoEntre(0,2);
 }
 
 int tMenu::menuGoal()
 {
-	std::cout << "Has alcanzado la meta, que quieres hacer?: " << std::endl
-	          << "1- Continuar "                               << std::endl
-	          << "2- Reiniciar "                               << std::endl
-	          << "0- Salir "                                   << std::endl;
+	std::cout << "You've reached the goal, what do you want to do?: " << std::endl
+	          << "1- Continuar "                                      << std::endl
+	          << "2- Reiniciar "                                      << std::endl
+	          << "0- Salir "                                          << std::endl;
 	
 	return digitoEntre(0,2);
 }
@@ -356,7 +357,6 @@ void Drawer::draw()
 		else
 		{
 			lower_border();
-			
 		}
 	}
 }
@@ -559,7 +559,7 @@ void HighScore::save()
 		}
 		file.close();
 	}
-	else std::cout << "Error, archivo " << name << " no encontrado" << std::endl;
+	else std::cout << "Error, file " << name << " not found" << std::endl;
 }
 
 void HighScore::show()
@@ -654,7 +654,7 @@ void Game2048::run()
 				}
 				else
 			}
-			else std::cout << "Error, you have already reached the maximun goal" << std::endl;
+			else std::cout << "Error, you have already reached the maximum goal" << std::endl;
 		}
 		else
 		{
@@ -806,19 +806,25 @@ int digitoEntre(int a, int b)
 
 		if (std::cin.fail())
 		{
-			std::cout << "Error! Introduce un digito" << std::endl;
+			std::cout << "Error, enter a digit" << std::endl;
 			std::cin.clear();
 		}
 
 		else if (digito < a || digito > b)
 		{
-			std::cout << "Error! Introduce un digito entre " << a << " y " << b << std::endl;
+			std::cout << "Error, enter a digit between " << a << " and " << b << std::endl;
 			digito = -1;
 		}
 
 	} while (digito == -1);
 
 	return digito;
+}
+
+//Añade una linea de guion
+void linea()
+{
+	cout << setfill('-') << setw(79) <<  '-'  << endl << setfill(' ');
 }
 
 int main()
