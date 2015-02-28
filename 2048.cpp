@@ -634,7 +634,7 @@ void Game2048::run()
 	{
 		if (max_tile() == goal)
 		{
-			if (goal < MAX_GOAL)
+			if (goal < pow(2,MAX_EXP_GOAL))
 			{
 				what_to_do = menuGoal();
 				
@@ -650,7 +650,7 @@ void Game2048::run()
 				{
 					menuDim();
 				}
-				else
+				else key = VK_ESCAPE;
 			}
 			else std::cout << "Error, you have already reached the maximum goal" << std::endl;
 		}
