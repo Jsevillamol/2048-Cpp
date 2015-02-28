@@ -642,6 +642,8 @@ void Game2048::run()
 				
 				if (what_to_do == 1)
 				{
+					change_goal();
+					
 					key = listener.listen();
 					update(tDirection(key));
 					drawer.draw();	
