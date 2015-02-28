@@ -7,10 +7,13 @@
 #include <assert.h>
 #include <iomanip>
 
+#include "winUtils.h"
+
 const int DIM = 8, //default dimension
 	  GOAL = 2048, //default goal
 	  LOW_EXP_GOAL = 5,
 	  MAX_EXP_GOAL = 20,
+	  N_HIGHSCORES = 10, //Player in the hall of fame
 	  //drawer constants
 	  upper_left_corner  = 218,
  	  upper_right_corner = 191,
@@ -55,6 +58,14 @@ struct tScore
 	friend std::istream& operator >> (std::istream& in, tScore score);
 };
 
+struct tHallOfFame
+{
+	tScore highscores[N_HIGHSCORES];
+	int n;
+	tHallOfFame() : n(0) {}
+	tScore& operator [] (int i) { return highscores[i]; }
+};
+
 std::ostream& operator << (std::ostream& out, tScore score)
 {
     out << score.name << "/t" << score.score;
@@ -78,17 +89,6 @@ class Game2048;
 int log2(int x);
 int digitoEntre(int a,int b);
 void linea();
-
-class tMenu
-{
-private:
-	Game2048 game;
-public:
-	void menuDim();
-	int menuIni();
-	int menuGoal();
-	void start();
-};
 
 class tBoard
 {
@@ -150,7 +150,7 @@ class HighScore
 {
 private:
 	Game2048 *game;
-	tScore highScores[10];
+	tHallOfFame hallOfFame;
 public:
 	HighScore(Game2048 *g);
 	~HighScore();
@@ -192,6 +192,17 @@ public:
 			bool is_full();
 };
 
+class tMenu
+{
+private:
+	Game2048 game;
+public:
+	void menuDim();
+	int menuIni();
+	int menuGoal();
+	void start();
+};
+
 inline int rand_int(int m);
 
 //////////////////////////////////////////////////////////////
@@ -215,9 +226,9 @@ void tMenu::menuDim()
 
 int tMenu::menuIni()
 {
-	std::cout << "1- Play"   << std::endl
-		  << "2- Records" << std::endl
-		  << "0- Exit"   << std::endl;
+	std::cout << "1- Play"    << std::endl
+		      << "2- Records" << std::endl
+		      << "0- Exit"    << std::endl;
 
 	return digitoEntre(0,2);
 }
@@ -225,9 +236,9 @@ int tMenu::menuIni()
 int tMenu::menuGoal()
 {
 	std::cout << "You've reached the goal, what do you want to do?: " << std::endl
-	          << "1- Continuar "                                      << std::endl
-	          << "2- Reiniciar "                                      << std::endl
-	          << "0- Salir "                                          << std::endl;
+	          << "1- Continue "                                       << std::endl
+	          << "2- Replay "                                         << std::endl
+	          << "0- Exit "                                           << std::endl;
 	
 	return digitoEntre(0,2);
 }
@@ -322,24 +333,6 @@ game(g)
 	cpConsoleOut(850);
 }
 
-inline void Drawer::cpConsoleOut(int cp)
-{
-	SetConsoleOutputCP(cp);
-}
-
-void Drawer::fontConsole()
-{
-	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_FONT_INFOEX cfi;
-	cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
-	cfi.FontWeight = 400;
-	cfi.nFont = 1;
-	cfi.dwFontSize.X = 12; cfi.dwFontSize.Y = 20;
-	cfi.FontFamily = 54;
-	wcscpy_s(cfi.FaceName, L"LucidaConsole");
-	SetCurrentConsoleFontEx(hStdOut, false, &cfi);
-}
-
 void Drawer::draw()
 {
 	//system("pause");
@@ -364,12 +357,6 @@ void Drawer::draw()
 }
 
 void Drawer::clearConsole(){ system("cls"); }
-
-void Drawer::backgroundTextAtt(int color)
-{
-	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hStdOut, 15 | (color << 4));
-}
 
 void Drawer::horizontal()
 {
@@ -522,23 +509,23 @@ bool SaveFile::load()
 
 ///////////////////////////////////////////
 
-HighScore::HighScore(game2048 *g): game(g)
+HighScore::HighScore(Game2048 *g): game(g)
 {
     if(!load()) std::cout<<"File not found";
 }
 
 bool HighScore::load()
 {
-	string name = "score.txt";
-	ifstream file;
+	std::string name = "score.txt";
+	std::ifstream file;
 
 	file.open(name);
 
 	if (file.is_open())
 	{
-		for (int i=0; i<10; i++)
+		for (int i=0; i<10; i++) //Problem: If there are not yet ten highscores, it crashes
 		{
-			file >> highScore[i];
+			file >> hallOfFame[i];
 		}
 		file.close();
 		return true;
@@ -548,16 +535,16 @@ bool HighScore::load()
 
 void HighScore::save()
 {
-	ofstream file;
-	string name = "score.txt";
+	std::ofstream file;
+	std::string name = "score.txt";
 	
 	file.open(name);
 	
 	if (file.is_open())
 	{
-		for (int i=0; i<10; i++)
+		for (int i=0; i<10; i++) //Same as in load
 		{
-			file << highScore[i];
+			file << hallOfFame[i];
 		}
 		file.close();
 	}
@@ -568,7 +555,7 @@ void HighScore::show()
 {
 	for (int i=0; i<10; i++)
 	{
-		std::cout << highScore[i] << std::endl;
+		std::cout << hallOfFame[i] << std::endl;
 	}
 }
 
@@ -614,7 +601,7 @@ void Game2048::change_goal()
 	
 	std::cout << "What two-exponential do you choose as goal? (ENTER for 10)" << std::endl;
 	
-	exponential = digitoEntre(LOW_EXP_GOAL,MAX_EXP_GOAL);
+	exponential = digitoEntre(LOW_EXP_GOAL,MAX_EXP_GOAL); //No puedes poner lo de ENTER for 10 si usas esta funcion
 	
 	if (exponential == "") goal = GOAL;
 	
