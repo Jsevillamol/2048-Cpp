@@ -1,4 +1,5 @@
 #include "winUtils.h"
+#include <windows.h>
 
 inline void cpConsoleOut(int cp)
 {
