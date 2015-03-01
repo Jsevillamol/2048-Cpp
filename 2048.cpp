@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <iomanip>
 
-#include "winUtils.h"
+#include "winUtils.cpp"
 
 const int DIM = 8, //default dimension
 	  GOAL = 2048, //default goal
@@ -51,9 +51,9 @@ struct tCoord
 struct tScore
 {
 	std::string name;
-	int score;
+	double score;
 
-	tScore(std::string n="XXX", int s=0): name(n), score(s) {}
+	tScore(std::string n="XXX", double s=0): name(n), score(s) {}
 	friend std::ostream& operator << (std::ostream& out, tScore score);
 	friend std::istream& operator >> (std::istream& in, tScore score);
 };
@@ -68,7 +68,7 @@ struct tHallOfFame
 
 std::ostream& operator << (std::ostream& out, tScore score)
 {
-    out << score.name << "/t" << score.score;
+    out << score.name << "\t" << score.score;
     return out;
 }
 
@@ -151,6 +151,8 @@ class HighScore
 private:
 	Game2048 *game;
 	tHallOfFame hallOfFame;
+	tScore score;
+
 public:
 	HighScore(Game2048 *g);
 	~HighScore();
@@ -159,20 +161,22 @@ public:
 	void save();
 
 	void show();
-	bool update();
+	void update();
 };
 
 class Game2048
 {
 private:
 	tBoard board;
-	int score, last_score, goal;
+	double score, last_score, goal;
 
+	tMenu menu;
 	Listener listener;
 	Drawer drawer;
 	SaveFile savefile;
 	HighScore highscore;
 
+	friend tMenu;
 	friend Drawer;
 	friend SaveFile;
 	friend HighScore;
@@ -338,9 +342,9 @@ void Drawer::draw()
 	//system("pause");
 	clearConsole();
 	
-	std::cout << "Move: "  << game->last_score << setw(3)
-	          << "Score: " << game->score      << setw(3) 
-	          << "Goal: "  << GOAL          << std::endl;
+	std::cout << "Move: "  << game->last_score << std::setw(3)
+	          << "Score: " << game->score      << std::setw(3) 
+	          << "Goal: "  << game->goal         << std::endl;
 
 	upper_border();
 
@@ -562,29 +566,29 @@ void HighScore::show()
 void HighScore::update()
 {
 	int i;
-	string name;
+	std::string name;
     //Check if score is a highscore
     //If it is, ask for a name and place highscore in the array, moving the lower highscores to the right
-	for (i=0; highScore[i]>=game.score && i<10; i++){}
+	for (i=0; hallOfFame[i]>=score.score && i<10; i++){}
 	
-	if (highScore[i] < game.score)
+	if (hallOfFame[i] < score.score)
 	{
 		for (int k=9; k>i; k--)
 		{
-			highScore[k] = highScore[k-1];
+			hallOfFame[k] = hallOfFame[k - 1];
 		}
 		std::cout << "What is your name?:" << std::endl;
-		std::cin.clear;
+		std::cin.clear();
 		std::cin >> name;
 		
-		highScore[i] = tScore(name, score);
+		hallOfFame.highscores[i] = tScore(name, game->score);
 	}
 }
 
 ////////////////////////////////////////////
 
 Game2048::Game2048() :
-	score(0), drawer(this), savefile(this)
+score(0), drawer(this), savefile(this), highscore(this)
 {
 	srand(time(NULL));
 }
@@ -597,15 +601,13 @@ void Game2048::init()
 
 void Game2048::change_goal()
 {
-	int newGoal, exponential;
+	int exponential;
 	
-	std::cout << "What two-exponential do you choose as goal? (ENTER for 10)" << std::endl;
+	std::cout << "What two-exponential do you choose as goal?" << std::endl;
 	
-	exponential = digitoEntre(LOW_EXP_GOAL,MAX_EXP_GOAL); //No puedes poner lo de ENTER for 10 si usas esta funcion
+	exponential = digitoEntre(LOW_EXP_GOAL,MAX_EXP_GOAL);
 	
-	if (exponential == "") goal = GOAL;
-	
-	else goal = pow(2,exponential);
+	goal = pow(2,exponential);
 }
 
 void Game2048::run()
@@ -615,7 +617,7 @@ void Game2048::run()
 
 	int key = up, what_to_do;
 	
-	change_goal();
+	goal = GOAL;
 
 	while (key != VK_ESCAPE && moves_left())
 	{
@@ -623,7 +625,7 @@ void Game2048::run()
 		{
 			if (goal < pow(2,MAX_EXP_GOAL))
 			{
-				what_to_do = menuGoal();
+				what_to_do = menu.menuGoal();
 				
 				if (what_to_do == 1)
 				{
@@ -635,7 +637,7 @@ void Game2048::run()
 				}
 				else if (what_to_do == 2)
 				{
-					menuDim();
+					menu.menuDim();
 				}
 				else key = VK_ESCAPE;
 			}
@@ -809,7 +811,7 @@ int digitoEntre(int a, int b)
 //Añade una linea de guion
 void linea()
 {
-	cout << setfill('-') << setw(79) <<  '-'  << endl << setfill(' ');
+	std::cout << std::setfill('-') << std::setw(79) << '-' << std::endl << std::setfill(' ');
 }
 
 int main()
