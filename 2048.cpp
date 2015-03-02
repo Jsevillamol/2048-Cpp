@@ -56,7 +56,13 @@ struct tScore
 	tScore(std::string n="XXX", double s=0): name(n), score(s) {}
 	friend std::ostream& operator << (std::ostream& out, tScore score);
 	friend std::istream& operator >> (std::istream& in, tScore score);
+	friend bool operator <  (tScore s, double i);
+	friend bool operator >= (tScore s, double i);
+	
 };
+
+bool operator <  (tScore s, double i){ return (s.score <  i); }
+bool operator >= (tScore s, double i){ return (s.score >= i); }
 
 struct tHallOfFame
 {
@@ -151,7 +157,6 @@ class HighScore
 private:
 	Game2048 *game;
 	tHallOfFame hallOfFame;
-	tScore score;
 
 public:
 	HighScore(Game2048 *g);
@@ -569,9 +574,9 @@ void HighScore::update()
 	std::string name;
     //Check if score is a highscore
     //If it is, ask for a name and place highscore in the array, moving the lower highscores to the right
-	for (i=0; hallOfFame[i]>=score.score && i<10; i++){}
+	for (i=0; hallOfFame[i] >= game->score && i<10; i++){}
 	
-	if (hallOfFame[i] < score.score)
+	if (hallOfFame[i] < game->score)
 	{
 		for (int k=9; k>i; k--)
 		{
