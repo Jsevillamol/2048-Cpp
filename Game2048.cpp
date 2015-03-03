@@ -37,17 +37,20 @@ void Game2048::run()
 	drawer.draw();
 
 	int key = UP;
-
-	goal = GOAL;
-
-	while (key != VK_ESCAPE && moves_left())
+	do
 	{
-		key = listener.listen();
-		update(tDirection(key));
-		drawer.draw();
-	}
+		while (key != ESCAPE && moves_left() && max_tile() < goal)
+		{
+			key = listener.listen();
+			update(tDirection(key));
+			drawer.draw();
+		}
+		//if keep playing
+		//change_goal();
+		//key == UP
+	} while (key != ESCAPE);
 
-	if (key == VK_ESCAPE) savefile.save();
+	if (key == ESCAPE) savefile.save();
 }
 
 void Game2048::update(tDirection dir)
