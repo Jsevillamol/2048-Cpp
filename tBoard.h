@@ -1,5 +1,7 @@
 #ifndef TBOARD
 #define TBOARD
+#include"tCoord.h"
+
 class tBoard
 {
 private:

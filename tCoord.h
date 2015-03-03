@@ -1,6 +1,6 @@
 #ifndef TCOORD
 #define TCOORD
-const int DIM = 8;
+#include "GlobalConstants.h"
 
 enum tDirection { left = 37, up, right, down };
 

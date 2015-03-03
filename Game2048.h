@@ -5,27 +5,29 @@
 #include "SaveFile.h"
 #include "HighScore.h"
 #include "tBoard.h"
-#include "tMenu.h"
 #include "tCoord.h"
+
 class Game2048
 {
 private:
 	tBoard board;
 	double score, last_score, goal;
 
-	tMenu menu;
 	Listener listener;
 	Drawer drawer;
 	SaveFile savefile;
 	HighScore highscore;
 
-	friend tMenu;
 	friend Drawer;
 	friend SaveFile;
 	friend HighScore;
 
 public:
 	Game2048();
+
+	tBoard* getBoard(){ return &board; }
+	HighScore* getHighscore(){ return &highscore; }
+
 	void init();
 	void change_goal();
 	void run();

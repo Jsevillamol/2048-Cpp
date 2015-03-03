@@ -1,44 +1,17 @@
+#include "Utils.h"
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <cstdlib>
-#include <math.h>
-#include <ctime>
-#include <assert.h>
 #include <iomanip>
-
-#include "winUtils.h"
-#include "Listener.h"
-#include "Drawer.h"
-#include "SaveFile.h"
-#include "HighScore.h"
-#include "Game2048.h"
-#include "tHallOfFame.h"
-#include "tScore.h"
-#include "tCoord.h"
-#include "tBoard.h"
-#include "tMenu.h"
-
-inline int rand_int(int m);
-int log2(int x);
-int digitoEntre(int a, int b);
-void linea();
-
-int main()
-{
-	Game2048 test;
-	test.run();
-}
+#include <cstdlib>
 
 inline int rand_int(int m)
 {
-	return rand() % m;
+	return std::rand() % m;
 }
 
 int log2(int x)
 {
 	int i;
-	for (i = 0; pow(2, i) < x; i++);
+	for (i = 0; std::pow(2, i) < x; i++);
 	return i;
 }
 
@@ -68,7 +41,7 @@ int digitoEntre(int a, int b)
 	return digito;
 }
 
-//AÃ±ade una linea de guion
+//Añade una linea de guion
 void linea()
 {
 	std::cout << std::setfill('-') << std::setw(79) << '-' << std::endl << std::setfill(' ');

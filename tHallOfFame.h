@@ -1,8 +1,7 @@
 #ifndef THALLOFFAME
 #define THALLOFFAME
 #include "tScore.h"
-
-const int N_HIGHSCORES = 10;
+#include "GlobalConstants.h"
 
 struct tHallOfFame
 {

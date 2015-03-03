@@ -1,6 +1,6 @@
 #ifndef TSCORE
 #define TSCORE
-#include <fstream>
+#include <iostream>
 #include <string>
 
 struct tScore
@@ -10,14 +10,14 @@ struct tScore
 
 	tScore(std::string n = "XXX", double s = 0) : name(n), score(s) {}
 	friend std::ostream& operator << (std::ostream& out, tScore score);
-	friend std::istream& operator >> (std::istream& in, tScore score);
-	friend bool operator <  (tScore s, double i);
-	friend bool operator >= (tScore s, double i);
+	friend bool operator >> (std::istream& in, tScore score);
+	friend bool operator <  (tScore s, long int i);
+	friend bool operator >= (tScore s, long int i);
 
 };
 
-bool operator <  (tScore s, double i){ return (s.score <  i); }
-bool operator >= (tScore s, double i){ return (s.score >= i); }
+bool operator <  (tScore s, long int i){ return (s.score <  i); }
+bool operator >= (tScore s, long int i){ return (s.score >= i); }
 
 std::ostream& operator << (std::ostream& out, tScore score)
 {
@@ -25,9 +25,16 @@ std::ostream& operator << (std::ostream& out, tScore score)
 	return out;
 }
 
-std::istream& operator >> (std::istream& in, tScore score)
+bool operator >> (std::istream& in, tScore score)
 {
-	in >> score.name >> score.score;
-	return in;
+	std::string n;
+	in >> n;
+	if (n == "???")
+	{
+		score.name = n;
+		in >> score.score;
+		return true;
+	}
+	else return false;
 }
 #endif

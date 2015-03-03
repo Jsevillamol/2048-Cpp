@@ -1,6 +1,7 @@
 #ifndef TMENU
 #define TMENU
-class Game2048;
+#include "Game2048.h"
+
 class tMenu
 {
 private:
@@ -8,7 +9,6 @@ private:
 public:
 	void menuDim();
 	int menuIni();
-	int menuGoal();
 	void start();
 };
 #endif

@@ -1,17 +1,17 @@
 #include "Game2048.h"
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <assert.h>
 
-const int DIM = 8, //default dimension
-          GOAL = 2048, //default goal
-          LOW_EXP_GOAL = 5,
-          MAX_EXP_GOAL = 20,
-          N_HIGHSCORES = 10; //Player in the hall of fame
-
-enum tDirection { left = 37, up, right, down };
+#include "GlobalConstants.h"
+#include "Utils.h"
+#include "keys.h"
 
 Game2048::Game2048() :
 score(0), drawer(this), savefile(this), highscore(this)
 {
-	srand(time(NULL));
+	std::srand(std::time(NULL));
 }
 
 void Game2048::init()
@@ -24,11 +24,11 @@ void Game2048::change_goal()
 {
 	int exponential;
 
-	std::cout << "What two-exponential do you choose as goal?" << std::endl;
+	std::cout << "What exponent of 2 do you choose as goal?" << std::endl;
 
 	exponential = digitoEntre(LOW_EXP_GOAL, MAX_EXP_GOAL);
 
-	goal = pow(2, exponential);
+	goal = std::pow(2, exponential);
 }
 
 void Game2048::run()
@@ -36,40 +36,15 @@ void Game2048::run()
 	if (!savefile.load()) init();
 	drawer.draw();
 
-	int key = up, what_to_do;
+	int key = UP;
 
 	goal = GOAL;
 
 	while (key != VK_ESCAPE && moves_left())
 	{
-		if (max_tile() == goal)
-		{
-			if (goal < pow(2, MAX_EXP_GOAL))
-			{
-				what_to_do = menu.menuGoal();
-
-				if (what_to_do == 1)
-				{
-					change_goal();
-
-					key = listener.listen();
-					update(tDirection(key));
-					drawer.draw();
-				}
-				else if (what_to_do == 2)
-				{
-					menu.menuDim();
-				}
-				else key = VK_ESCAPE;
-			}
-			else std::cout << "Error, you have already reached the maximum goal" << std::endl;
-		}
-		else
-		{
-			key = listener.listen();
-			update(tDirection(key));
-			drawer.draw();
-		}
+		key = listener.listen();
+		update(tDirection(key));
+		drawer.draw();
 	}
 
 	if (key == VK_ESCAPE) savefile.save();

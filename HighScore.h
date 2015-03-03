@@ -12,7 +12,7 @@ public:
 	HighScore(Game2048 *g);
 	~HighScore();
 
-	bool load();
+	void load();
 	void save();
 
 	void show();

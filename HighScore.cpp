@@ -7,10 +7,10 @@
 
 HighScore::HighScore(Game2048 *g) : game(g)
 {
-	if (!load()) std::cout << "File not found";
+	load();
 }
 
-bool HighScore::load()
+void HighScore::load()
 {
 	std::string name = "score.txt";
 	std::ifstream file;
@@ -19,14 +19,20 @@ bool HighScore::load()
 
 	if (file.is_open())
 	{
-		for (int i = 0; i<10; i++) //Problem: If there are not yet ten highscores, it crashes
+		for (int i = 0; i < N_HIGHSCORES && file >> hallOfFame[i]; i++) //Problem: If there are not yet ten highscores, it crashes
 		{
-			file >> hallOfFame[i];
+			hallOfFame.n++;
 		}
+		if (hallOfFame.n < N_HIGHSCORES) hallOfFame[hallOfFame.n] = tScore("???", 0);
 		file.close();
-		return true;
 	}
-	else return false;
+	else
+	{
+		for (int i = 0; i < N_HIGHSCORES; i++)
+		{
+			hallOfFame[i] = tScore("???", 0);
+		}
+	}
 }
 
 void HighScore::save()
@@ -38,7 +44,7 @@ void HighScore::save()
 
 	if (file.is_open())
 	{
-		for (int i = 0; i<10; i++) //Same as in load
+		for (int i = 0; i<hallOfFame.n; i++) //Same as in load
 		{
 			file << hallOfFame[i];
 		}
@@ -49,7 +55,7 @@ void HighScore::save()
 
 void HighScore::show()
 {
-	for (int i = 0; i<10; i++)
+	for (int i = 0; i<hallOfFame.n; i++)
 	{
 		std::cout << hallOfFame[i] << std::endl;
 	}
