@@ -14,10 +14,7 @@ void HighScore::load()
 
 	if (file.is_open())
 	{
-		for (int i = 0; i < N_HIGHSCORES && file >> hallOfFame[i]; i++)
-		{
-			hallOfFame.n++;
-		}
+		for (int i = 0; i < N_HIGHSCORES && file >> hallOfFame[i]; i++);
 		file.close();
 	}
 	else std::cout << "File not found. A new file will be created.";
@@ -32,18 +29,25 @@ void HighScore::save()
 
 	if (file.is_open())
 	{
-		for (int i = 0; i<hallOfFame.n; i++) //Same as in load
+		for (int i = 0; i<N_HIGHSCORES; i++)
 		{
 			file << hallOfFame[i];
 		}
 		file.close();
 	}
-	else std::cout << "Error, file " << name << " not found" << std::endl;
+	else
+	{
+		for (int i = 0; i < N_HIGHSCORES; i++)
+		{
+			hallOfFame[i] = tScore();
+		}
+	}
 }
 
 void HighScore::show()
 {
-	for (int i = 0; i<hallOfFame.n; i++)
+	load();
+	for (int i = 0; i<N_HIGHSCORES; i++)
 	{
 		std::cout << hallOfFame[i] << std::endl;
 	}
@@ -51,10 +55,12 @@ void HighScore::show()
 
 bool HighScore::new_highscore()
 {
+	load();
+
 	int i;
 	//Check if score is a highscore
 	//If it is, ask for a name and place highscore in the array, moving the lower highscores to the right
-	for (i = 0; hallOfFame[i] >= game->score && i<10; i++){}
+	for (i = 0; hallOfFame[i] >= game->score && i<N_HIGHSCORES; i++){}
 
 	if (hallOfFame[i] < game->score)
 	{
@@ -68,7 +74,8 @@ bool HighScore::new_highscore()
 		std::cin >> name;
 
 		hallOfFame.highscores[i] = tScore(name, game->score);
-
+		save();
+		show();
 		return true;
 	}
 	else return false;
