@@ -12,6 +12,7 @@ class Game2048
 private:
 	tBoard board;
 	double score, last_score, goal;
+	int dim = board.getDim();
 
 	Listener listener;
 	Drawer drawer;
@@ -30,6 +31,7 @@ public:
 
 	void init();
 	void change_goal();
+	void change_dim();
 	void run();
 	void update(tDirection dir);
 	void gen_tile();

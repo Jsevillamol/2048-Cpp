@@ -31,6 +31,19 @@ void Game2048::change_goal()
 	goal = std::pow(2, exponential);
 }
 
+void Game2048::change_dim()
+{
+	int newDim;
+
+	std::cout << "What dimension do you choose?" << std::endl;
+
+	newDim = digitoEntre(4, 8);
+
+	getBoard()->changeDimension(newDim);
+
+	run();
+}
+
 void Game2048::run()
 {
 	if (!savefile.load()) init();

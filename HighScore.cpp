@@ -12,7 +12,7 @@ HighScore::HighScore(Game2048 *g) : game(g)
 
 void HighScore::load()
 {
-	std::string name = "score.txt";
+	std::string name = "HighScore_" + std::to_string(game->dim) + "x" + std::to_string(game->dim) + "_" + std::to_string(game->goal) + ".txt";
 	std::ifstream file;
 
 	file.open(name);
@@ -38,7 +38,7 @@ void HighScore::load()
 void HighScore::save()
 {
 	std::ofstream file;
-	std::string name = "score.txt";
+	std::string name = "HighScore_" + std::to_string(game->dim) + "x" + std::to_string(game->dim) + "_" + std::to_string(game->goal) + ".txt";
 
 	file.open(name);
 

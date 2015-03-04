@@ -5,19 +5,6 @@
 #include "Game2048.h"
 #include "Utils.h"
 
-void tMenu::menuDim()
-{
-	std::cout << "4- Dimension 4x4" << std::endl
-		<< "5- Dimension 5x5" << std::endl
-		<< "6- Dimension 6x6" << std::endl
-		<< "7- Dimension 7x7" << std::endl
-		<< "8- Dimension 8x8" << std::endl;
-
-	game.getBoard()->changeDimension(digitoEntre(4, 8));
-
-	game.run();
-}
-
 int tMenu::menuIni()
 {
 	std::cout << "1- Play" << std::endl
@@ -45,7 +32,7 @@ void tMenu::start()
 	{
 		if (seleccion == 1)
 		{
-			menuDim();
+			game.change_dim();
 		}
 		else if (seleccion == 2)
 		{
