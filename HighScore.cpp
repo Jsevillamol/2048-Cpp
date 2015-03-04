@@ -5,11 +5,6 @@
 #include "HighScore.h"
 #include "tScore.h"
 
-HighScore::HighScore(Game2048 *g) : game(g)
-{
-	load();
-}
-
 void HighScore::load()
 {
 	std::string name = "HighScore_" + std::to_string(game->goal) + "_" +std::to_string(game->dim) + "x" + std::to_string(game->dim) + ".txt";
@@ -19,20 +14,13 @@ void HighScore::load()
 
 	if (file.is_open())
 	{
-		for (int i = 0; i < N_HIGHSCORES && file >> hallOfFame[i]; i++) //Problem: If there are not yet ten highscores, it crashes
+		for (int i = 0; i < N_HIGHSCORES && file >> hallOfFame[i]; i++)
 		{
 			hallOfFame.n++;
 		}
-		if (hallOfFame.n < N_HIGHSCORES) hallOfFame[hallOfFame.n] = tScore("???", 0);
 		file.close();
 	}
-	else
-	{
-		for (int i = 0; i < N_HIGHSCORES; i++)
-		{
-			hallOfFame[i] = tScore("???", 0);
-		}
-	}
+	else std::cout << "File not found. A new file will be created.";
 }
 
 void HighScore::save()

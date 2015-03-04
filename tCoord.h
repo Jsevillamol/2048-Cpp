@@ -22,4 +22,4 @@ struct tCoord
 
 	bool operator != (tCoord coor){ return x != coor.x || y != coor.y; }
 };
-#endif
+#endif//TCOORD

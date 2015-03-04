@@ -9,8 +9,7 @@ private:
 	tHallOfFame hallOfFame;
 
 public:
-	HighScore(Game2048 *g);
-	~HighScore();
+	HighScore(Game2048 *g) : game(g) {}
 
 	void load();
 	void save();
