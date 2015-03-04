@@ -5,8 +5,8 @@ DIM = 8, //default dimension
 GOAL = 2048, //default goal
 
 LOW_EXP_GOAL = 5,
-MAX_EXP_GOAL = 20,
+MAX_EXP_GOAL = 16,
 
-N_HIGHSCORES = 10; //Player in the hall of fame
+N_HIGHSCORES = 10; //Players in the hall of fame
 
 #endif // !GLOBALCONSTANTS

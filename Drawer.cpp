@@ -1,7 +1,7 @@
+#include "Drawer.h"
 #include <iostream>
 #include <iomanip>
 #include "Game2048.h"
-#include "Drawer.h"
 #include "winUtils.h"
 
 const int upper_left_corner  = 218,
