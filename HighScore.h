@@ -16,6 +16,6 @@ public:
 	void save();
 
 	void show();
-	void update();
+	bool new_highscore();
 };
 #endif

@@ -12,7 +12,7 @@ HighScore::HighScore(Game2048 *g) : game(g)
 
 void HighScore::load()
 {
-	std::string name = "HighScore_" + std::to_string(game->dim) + "x" + std::to_string(game->dim) + "_" + std::to_string(game->goal) + ".txt";
+	std::string name = "HighScore_" + std::to_string(game->goal) + "_" +std::to_string(game->dim) + "x" + std::to_string(game->dim) + ".txt";
 	std::ifstream file;
 
 	file.open(name);
@@ -38,7 +38,7 @@ void HighScore::load()
 void HighScore::save()
 {
 	std::ofstream file;
-	std::string name = "HighScore_" + std::to_string(game->dim) + "x" + std::to_string(game->dim) + "_" + std::to_string(game->goal) + ".txt";
+	std::string name = "HighScore_" + std::to_string(game->goal) + "_" + std::to_string(game->dim) + "x" + std::to_string(game->dim) + ".txt";
 
 	file.open(name);
 
@@ -61,7 +61,7 @@ void HighScore::show()
 	}
 }
 
-void HighScore::update()
+bool HighScore::new_highscore()
 {
 	int i;
 	std::string name;
@@ -80,5 +80,8 @@ void HighScore::update()
 		std::cin >> name;
 
 		hallOfFame.highscores[i] = tScore(name, game->score);
+
+		return true;
 	}
+	else return false;
 }

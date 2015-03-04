@@ -58,6 +58,10 @@ void Game2048::run()
 			update(tDirection(key));
 			drawer.draw();
 		}
+		if (highscore.new_highscore())
+		{
+			highscore.show();
+		}
 		//if keep playing
 		//change_goal();
 		//key == UP
