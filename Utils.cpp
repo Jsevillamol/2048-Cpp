@@ -1,12 +1,6 @@
 #include "Utils.h"
 #include <iostream>
 #include <iomanip>
-#include <cstdlib>
-
-inline int rand_int(int m)
-{
-	return std::rand() % m;
-}
 
 int log2(int x)
 {

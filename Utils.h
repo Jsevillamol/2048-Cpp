@@ -6,4 +6,10 @@ int log2(int x);
 int digitoEntre(int a, int b);
 void linea();
 
+#include <cstdlib>
+inline int rand_int(int m)
+{
+	return std::rand() % m;
+}
+
 #endif //UTILS

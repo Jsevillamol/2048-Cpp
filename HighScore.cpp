@@ -52,7 +52,6 @@ void HighScore::show()
 bool HighScore::new_highscore()
 {
 	int i;
-	std::string name;
 	//Check if score is a highscore
 	//If it is, ask for a name and place highscore in the array, moving the lower highscores to the right
 	for (i = 0; hallOfFame[i] >= game->score && i<10; i++){}
@@ -63,6 +62,7 @@ bool HighScore::new_highscore()
 		{
 			hallOfFame[k] = hallOfFame[k - 1];
 		}
+		std::string name;
 		std::cout << "What is your name?:" << std::endl;
 		std::cin.clear();
 		std::cin >> name;

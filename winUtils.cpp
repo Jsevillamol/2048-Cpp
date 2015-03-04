@@ -1,11 +1,6 @@
 #include "winUtils.h"
 #include <windows.h>
 
-inline void cpConsoleOut(int cp)
-{
-	SetConsoleOutputCP(cp);
-}
-
 void fontConsole()
 {
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
