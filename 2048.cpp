@@ -1,8 +1,8 @@
-#include "Game2048.h"
+#include "tMenu.h"
 
 int main()
 {
-	Game2048 test;
-	test.run();
+	tMenu test;
+	test.start();
 }
 

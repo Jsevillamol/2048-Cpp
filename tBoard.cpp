@@ -1,7 +1,6 @@
 #include "tBoard.h"
 
-tBoard::tBoard(int d) :
-dim(d)
+tBoard::tBoard(int d)
 {
 	create(d);
 }
@@ -13,15 +12,19 @@ tBoard::~tBoard()
 
 void tBoard::create(int d)
 {
+	dim = d;
 	board = new int*[dim];
 	for (int i = 0; i<dim; i++)
-		board[i] = new int[dim]();
+		board[i] = new int[dim];
 }
 
 void tBoard::destroy()
 {
-	for (int i = 0; i<dim; i++)
+	for (int i = 0; i < dim; i++)
+	{
 		delete[] board[i];
+		board[i] = nullptr;
+	}
 	delete[] board;
 	board = nullptr;
 }
@@ -32,7 +35,6 @@ void tBoard::changeDimension(const int d)
 	{
 		destroy();
 		create(d);
-		dim = d;
 	}
 }
 

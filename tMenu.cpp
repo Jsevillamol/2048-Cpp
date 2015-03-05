@@ -8,10 +8,12 @@
 int tMenu::menuIni()
 {
 	std::cout << "1- Play" << std::endl
-		<< "2- Records" << std::endl
+		<< "2- Change Dimension" <<std::endl
+		<< "3- Change goal" <<std::endl
+		<< "4- Records" << std::endl
 		<< "0- Exit" << std::endl;
 
-	return digitoEntre(0,2);
+	return digitoEntre(0,4);
 }
 
 //int tMenu::menuGoal()
@@ -26,17 +28,28 @@ int tMenu::menuIni()
 
 void tMenu::start()
 {
-	int seleccion = menuIni();
+	int seleccion;
 
 	do
 	{
+		seleccion = menuIni();
+
 		if (seleccion == 1)
 		{
-			game.change_dim();
+			game.run();
 		}
 		else if (seleccion == 2)
 		{
-			//game.getHighscore()->show();
+			game.change_dim();
 		}
+		else if (seleccion == 3)
+		{
+			game.change_goal();
+		}
+		else if (seleccion == 4)
+		{
+			std::cout << "Not implemented" << std::endl;
+		}
+
 	} while (seleccion != 0);
 }

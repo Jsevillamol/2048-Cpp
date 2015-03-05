@@ -37,13 +37,12 @@ void Game2048::change_dim()
 {
 	int newDim;
 
-	std::cout << "What dimension do you choose?" << std::endl;
+	std::cout << "What size of the board do you choose? (4-8)" << std::endl;
 
 	newDim = digitoEntre(4, 8);
 
 	getBoard()->changeDimension(newDim);
 
-	run();
 }
 
 void Game2048::run()
