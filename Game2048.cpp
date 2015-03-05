@@ -54,6 +54,7 @@ void Game2048::run()
 	int key = UP;
 	//do
 	//{
+
 		while (key != ESCAPE && moves_left() && max_tile() < goal)
 		{
 			key = listener.listen();
