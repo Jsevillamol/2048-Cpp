@@ -18,7 +18,7 @@ void Drawer::draw()
 
 	std::cout << "Move: " << game->last_score << "   "
 		<< "Score: " << game->score << "   "
-		<< "Goal: " << game->goal << std::endl;
+		<< "Goal: " << std::pow(2, game->goal) << std::endl;
 
 	upper_border();
 
@@ -99,9 +99,9 @@ void Drawer::draw_row(int row)
 
 		for (int k = 0; k < game->board.getDim(); k++)
 		{
-			backgroundTextAtt(log2(game->board(row, k)));
+			backgroundTextAtt(log2(std::pow(2,game->board(row, k))));
 
-			if (j == 2 && game->board(row, k) != 0) std::cout << std::setw(7) << game->board(row, k);
+			if (j == 2 && game->board(row, k) != 0) std::cout << std::setw(7) << std::pow(2,game->board(row, k));
 			else std::cout << std::setw(7) << " ";
 
 			backgroundTextAtt(0);

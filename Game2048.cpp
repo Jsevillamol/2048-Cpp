@@ -24,13 +24,9 @@ void Game2048::init()
 
 void Game2048::change_goal()
 {
-	int exponential;
-
 	std::cout << "What exponent of 2 do you choose as goal?" << std::endl;
 
-	exponential = digitoEntre(LOW_EXP_GOAL, MAX_EXP_GOAL);
-
-	goal = std::pow(2, exponential);
+	goal = digitoEntre(LOW_EXP_GOAL, MAX_EXP_GOAL);
 }
 
 void Game2048::change_dim()
@@ -54,7 +50,7 @@ void Game2048::run()
 	//do
 	//{
 
-		while (key != ESCAPE && moves_left() && max_tile() < goal)
+		while (key != ESCAPE && moves_left() && max_tile() < std::pow(2, goal))
 		{
 			key = listener.listen();
 			update(tDirection(key));
@@ -96,7 +92,7 @@ void Game2048::gen_tile()
 		rx = rand_int(board.getDim()); ry = rand_int(board.getDim());
 	} while (board(rx, ry) != 0);
 
-	board(rx, ry) = ((rand() / RAND_MAX)<0.95) ? 2 : 4;
+	board(rx, ry) = ((rand() / RAND_MAX)<0.95) ? 1 : 2;
 }
 
 int Game2048::max_tile()
@@ -105,7 +101,7 @@ int Game2048::max_tile()
 	for (int i = 0; i<board.getDim(); i++)
 		for (int j = 0; j<board.getDim(); j++)
 		{
-			if (board(i, j) > mx_tile) mx_tile = board(i, j);
+			if (std::pow(2,board(i, j)) > mx_tile) mx_tile = std::pow(2, board(i, j));
 		}
 	return mx_tile;
 }
@@ -135,21 +131,23 @@ bool Game2048::combine_tiles(tDirection dir)
 {
 	tCoord init, incr; bool change = false;
 	getCoordMov(dir, init, incr);
-	for (int i = init.x; 0 <= i && i<board.getDim(); i += incr.x)
-		for (int j = init.y; 0 <= j && j<board.getDim(); j += incr.y)
+	for (int i = init.x; 0 <= i && i < board.getDim(); i += incr.x)
+	{
+		for (int j = init.y; 0 <= j && j < board.getDim(); j += incr.y)
 		{
 			if (board(i, j) != 0 && (tCoord(i, j) != tCoord(i, j).next(dir))) //Check for borders
 			{
 				if (board[tCoord(i, j).next(dir)] == board(i, j))
 				{
 					board(i, j) = 0;
-					board[tCoord(i, j).next(dir)] *= 2;
-					last_score = board[tCoord(i, j).next(dir)];
+					board[tCoord(i, j).next(dir)] += 1;
+					last_score = (std::pow(2, board[tCoord(i, j).next(dir)])/2);
 					score += last_score;
 					change = true;
 				}
 			}
 		}
+	}
 	return change;
 }
 
