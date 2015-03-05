@@ -1,7 +1,7 @@
 #ifndef GLOBALCONSTANTS
 #define GLOBALCONSTANTS
 const int
-DIM = 8, //default dimension
+DIM = 4, //default dimension
 GOAL = 2048, //default goal
 
 LOW_EXP_GOAL = 5,

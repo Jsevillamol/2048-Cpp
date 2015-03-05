@@ -8,8 +8,10 @@
 #include "Utils.h"
 #include "keys.h"
 
-Game2048::Game2048() :
-score(0), drawer(this), savefile(this), highscore(this)
+Game2048::Game2048(int d, int g):
+	board(d),		goal(g),
+	score(0),		last_score(0), 
+	drawer(this),	savefile(this)//, highscore(this)
 {
 	std::srand(std::time(NULL));
 }
@@ -50,22 +52,22 @@ void Game2048::run()
 	drawer.draw();
 
 	int key = UP;
-	do
-	{
+	//do
+	//{
 		while (key != ESCAPE && moves_left() && max_tile() < goal)
 		{
 			key = listener.listen();
 			update(tDirection(key));
 			drawer.draw();
 		}
-		if (highscore.new_highscore())
-		{
-			highscore.show();
-		}
+		//if (highscore.new_highscore())
+		//{
+		//	highscore.show();
+		////}
 		//if keep playing
 		//change_goal();
 		//key == UP
-	} while (key != ESCAPE);
+	//} while (key != ESCAPE);
 
 	if (key == ESCAPE) savefile.save();
 }
@@ -100,8 +102,8 @@ void Game2048::gen_tile()
 int Game2048::max_tile()
 {
 	int mx_tile = 0;
-	for (int i = 0; i<DIM; i++)
-		for (int j = 0; j<DIM; j++)
+	for (int i = 0; i<board.getDim(); i++)
+		for (int j = 0; j<board.getDim(); j++)
 		{
 			if (board(i, j) > mx_tile) mx_tile = board(i, j);
 		}

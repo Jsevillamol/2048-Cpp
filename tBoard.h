@@ -8,12 +8,12 @@ private:
 	int** board;
 	int dim;
 
+	void create(int d);
+	void destroy();
+
 public:
 	tBoard(int d = DIM);
 	~tBoard();
-
-	void create(int d);
-	void destroy();
 
 	void reset();
 	void changeDimension(const int d);

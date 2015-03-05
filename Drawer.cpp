@@ -3,18 +3,7 @@
 #include <iomanip>
 #include "Game2048.h"
 #include "winUtils.h"
-
-const int upper_left_corner  = 218,
-		  upper_right_corner = 191,
-		  lower_lenf_corner  = 192,
-		  lower_right_corner = 217,
-		  carfax             = 197,
-		  no_left_carfax     = 195,
-		  no_right_carfax    = 180,
-		  no_upper_carfax    = 194,
-		  no_lower_carfax    = 193,
-		  upright_line       = 179,
-		  horizontal_line    = 196;
+#include "CharConstants.h"
 
 Drawer::Drawer(Game2048 *g) :game(g)
 {
@@ -37,12 +26,8 @@ void Drawer::draw()
 	{
 		draw_row(i);
 		if (i<(game->board.getDim() - 1)) interior_border();
-		else
-		{
-
-			lower_border();
-		}
 	}
+	lower_border();
 }
 
 void Drawer::clearConsole(){ system("cls"); }

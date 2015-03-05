@@ -1,11 +1,8 @@
-#include "tMenu.h"
-#include <cstdlib>
-#include <ctime>
+#include "Game2048.h"
 
 int main()
 {
-	std::srand(std::time(NULL));
-	tMenu test;
-	test.start();
+	Game2048 test;
+	test.run();
 }
 

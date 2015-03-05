@@ -36,7 +36,7 @@ void tMenu::start()
 		}
 		else if (seleccion == 2)
 		{
-			game.getHighscore()->show();
+			//game.getHighscore()->show();
 		}
 	} while (seleccion != 0);
 }

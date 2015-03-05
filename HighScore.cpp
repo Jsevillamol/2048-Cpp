@@ -7,25 +7,32 @@
 
 void HighScore::load()
 {
-	std::string name = "HighScore_" + std::to_string(game->goal) + "_" +std::to_string(game->dim) + "x" + std::to_string(game->dim) + ".txt";
-	std::ifstream file;
-
-	file.open(name);
+	std::string name = "HighScore_" + std::to_string(game->goal) + "_" + 
+					   std::to_string(game->board.getDim()) + "x" +
+					   std::to_string(game->board.getDim()) + ".txt";
+	std::ifstream file(name);
 
 	if (file.is_open())
 	{
 		for (int i = 0; i < N_HIGHSCORES && file >> hallOfFame[i]; i++);
 		file.close();
 	}
-	else std::cout << "File not found. A new file will be created.";
+	else
+	{
+		std::cout << "File not found. A new file will be created.";
+		for (int i = 0; i < N_HIGHSCORES; i++)
+		{
+			hallOfFame[i] = tScore();
+		}
+	}
 }
 
 void HighScore::save()
 {
-	std::ofstream file;
-	std::string name = "HighScore_" + std::to_string(game->goal) + "_" + std::to_string(game->dim) + "x" + std::to_string(game->dim) + ".txt";
-
-	file.open(name);
+	std::string name = "HighScore_" + std::to_string(game->goal) + "_" +
+		std::to_string(game->board.getDim()) + "x" +
+		std::to_string(game->board.getDim()) + ".txt";
+	std::ofstream file(name);
 
 	if (file.is_open())
 	{
@@ -34,13 +41,6 @@ void HighScore::save()
 			file << hallOfFame[i];
 		}
 		file.close();
-	}
-	else
-	{
-		for (int i = 0; i < N_HIGHSCORES; i++)
-		{
-			hallOfFame[i] = tScore();
-		}
 	}
 }
 
@@ -75,7 +75,6 @@ bool HighScore::new_highscore()
 
 		hallOfFame.highscores[i] = tScore(name, game->score);
 		save();
-		show();
 		return true;
 	}
 	else return false;
