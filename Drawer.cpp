@@ -27,9 +27,9 @@ void Drawer::draw()
 	//system("pause");
 	clearConsole();
 
-	std::cout << "Move: " << game->last_score << std::setw(3)
-			  << "Score: " << game->score << std::setw(3)
-			  << "Goal: " << game->goal << std::endl;
+	std::cout << "Move: " << game->last_score << "   "
+		<< "Score: " << game->score << "   "
+		<< "Goal: " << game->goal << std::endl;
 
 	upper_border();
 

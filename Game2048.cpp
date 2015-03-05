@@ -50,6 +50,9 @@ void Game2048::run()
 	drawer.draw();
 
 	int key = UP;
+
+	goal = GOAL;
+
 	do
 	{
 		while (key != ESCAPE && moves_left() && max_tile() < goal)

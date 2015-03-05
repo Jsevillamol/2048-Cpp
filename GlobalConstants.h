@@ -2,7 +2,7 @@
 #define GLOBALCONSTANTS
 const int
 DIM = 8, //default dimension
-GOAL = 2048, //default goal
+GOAL = 32, //default goal
 
 LOW_EXP_GOAL = 5,
 MAX_EXP_GOAL = 16,

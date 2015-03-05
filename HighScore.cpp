@@ -49,7 +49,10 @@ void HighScore::show()
 	load();
 	for (int i = 0; i<N_HIGHSCORES; i++)
 	{
-		std::cout << hallOfFame[i] << std::endl;
+		if (hallOfFame[i].name != "XXX")
+		{
+			std::cout << hallOfFame[i] << std::endl;
+		}
 	}
 }
 
@@ -74,8 +77,12 @@ bool HighScore::new_highscore()
 		std::cin >> name;
 
 		hallOfFame.highscores[i] = tScore(name, game->score);
+
+		if (i < 9)
+		{
+			hallOfFame.highscores[i+1] = tScore("???", 0);
+		}
 		save();
-		show();
 		return true;
 	}
 	else return false;
