@@ -5,6 +5,8 @@
 #include "HighScore.h"
 #include "tScore.h"
 
+//It loads the highscore file, ant put its
+//contents in the array hallOfFame[]
 void HighScore::load()
 {
 	std::string name = "HighScore_" + std::to_string(game->goal) + "_" + 
@@ -27,6 +29,7 @@ void HighScore::load()
 	}
 }
 
+//It saves the highscore file
 void HighScore::save()
 {
 	std::string name = "HighScore_" + std::to_string(game->goal) + "_" +
@@ -44,6 +47,7 @@ void HighScore::save()
 	}
 }
 
+//It shows the array's contents 
 void HighScore::show()
 {
 	load();
@@ -56,13 +60,14 @@ void HighScore::show()
 	}
 }
 
+//It check if the new score is a highscore, 
+//and update the array's contents
 bool HighScore::new_highscore()
 {
 	load();
 
 	int i;
-	//Check if score is a highscore
-	//If it is, ask for a name and place highscore in the array, moving the lower highscores to the right
+
 	for (i = 0; hallOfFame[i] >= game->score && i<N_HIGHSCORES; i++){}
 
 	if (hallOfFame[i] < game->score)

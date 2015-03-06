@@ -11,6 +11,7 @@ Drawer::Drawer(Game2048 *g) :game(g)
 	cpConsoleOut(850);
 }
 
+//It draws the game board
 void Drawer::draw()
 {
 	//system("pause");
@@ -32,6 +33,8 @@ void Drawer::draw()
 
 void Drawer::clearConsole(){ system("cls"); }
 
+//It draws the horizontal 
+//line which forms each box
 void Drawer::horizontal()
 {
 	for (int i = 0; i < 7; i++)
@@ -40,6 +43,8 @@ void Drawer::horizontal()
 	}
 }
 
+//It draws the upper border 
+//of the board
 void Drawer::upper_border()
 {
 	std::cout << char(upper_left_corner);
@@ -59,6 +64,8 @@ void Drawer::upper_border()
 	}
 }
 
+//It draws the lower border
+//of the board
 void Drawer::lower_border()
 {
 	std::cout << char(lower_lenf_corner);
@@ -72,6 +79,7 @@ void Drawer::lower_border()
 	}
 }
 
+//It draws the border between rows
 void Drawer::interior_border()
 {
 	std::cout << char(no_left_carfax);
@@ -91,6 +99,7 @@ void Drawer::interior_border()
 	}
 }
 
+//It draws a row
 void Drawer::draw_row(int row)
 {
 	for (int j = 0; j < 5; j++)

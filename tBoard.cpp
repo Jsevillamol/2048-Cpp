@@ -10,6 +10,7 @@ tBoard::~tBoard()
 	destroy();
 }
 
+//It creates the board
 void tBoard::create(int d)
 {
 	dim = d;
@@ -18,6 +19,7 @@ void tBoard::create(int d)
 		board[i] = new int[dim];
 }
 
+//It deletes the board
 void tBoard::destroy()
 {
 	for (int i = 0; i < dim; i++)
@@ -29,6 +31,8 @@ void tBoard::destroy()
 	board = nullptr;
 }
 
+//It destroys the board, and creates other
+//with the new dimension 
 void tBoard::changeDimension(const int d)
 {
 	if (d != dim)
@@ -38,6 +42,7 @@ void tBoard::changeDimension(const int d)
 	}
 }
 
+//It makes every tile in the board become 0
 void tBoard::reset()
 {
 	for (int i = 0; i<dim; i++)

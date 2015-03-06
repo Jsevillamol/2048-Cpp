@@ -3,6 +3,8 @@
 #include "SaveFile.h"
 #include "Game2048.h"
 
+//It asks you if you want to save your game, and if you want it, 
+//it asks you how do you want to call the savefile
 bool SaveFile::save()
 {
 	char option;
@@ -38,6 +40,7 @@ bool SaveFile::save()
 	return false;
 }
 
+//It asks you what file do you want to load
 bool SaveFile::load()
 {
 	std::fstream in;

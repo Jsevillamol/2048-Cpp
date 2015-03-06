@@ -16,12 +16,15 @@ Game2048::Game2048(int d, int g):
 	std::srand(std::time(NULL));
 }
 
+
 void Game2048::init()
 {
 	board.reset();
 	gen_tile(); gen_tile();
 }
 
+//It asks for an exponent of 2 
+//to make the goal
 void Game2048::change_goal()
 {
 	std::cout << "What exponent of 2 do you choose as goal?" << std::endl;
@@ -29,6 +32,8 @@ void Game2048::change_goal()
 	goal = digitoEntre(LOW_EXP_GOAL, MAX_EXP_GOAL);
 }
 
+//It asks for the board dimension 
+//you want to play with
 void Game2048::change_dim()
 {
 	int newDim;
@@ -41,6 +46,7 @@ void Game2048::change_dim()
 
 }
 
+//It starts the game
 void Game2048::run()
 {
 	if (!savefile.load()) init();
@@ -68,6 +74,8 @@ void Game2048::run()
 	if (key == ESCAPE) savefile.save();
 }
 
+//It detects if you make a movement, and
+//updates the board with your movement
 void Game2048::update(tDirection dir)
 {
 	/*The two steps must always be executed,
@@ -83,6 +91,9 @@ void Game2048::update(tDirection dir)
 	}
 }
 
+//It generates the random numbers 
+//which appear at the begining, and
+//every time you make a movement
 void Game2048::gen_tile()
 {
 	assert(!is_full());
@@ -95,6 +106,8 @@ void Game2048::gen_tile()
 	board(rx, ry) = ((rand() / RAND_MAX)<0.95) ? 1 : 2;
 }
 
+//It detects which of the board numbers
+//is the maximum
 int Game2048::max_tile()
 {
 	int mx_tile = 0;
@@ -106,6 +119,7 @@ int Game2048::max_tile()
 	return mx_tile;
 }
 
+//It detects if you make a movement
 bool Game2048::tilt(tDirection dir)
 {
 	bool there_has_been_movement = false;
@@ -127,6 +141,8 @@ bool Game2048::tilt(tDirection dir)
 	return there_has_been_movement;
 }
 
+//It combine the board numbers which are put together
+//when you make a movement (just if both numbers are the same)
 bool Game2048::combine_tiles(tDirection dir)
 {
 	tCoord init, incr; bool change = false;
@@ -151,6 +167,7 @@ bool Game2048::combine_tiles(tDirection dir)
 	return change;
 }
 
+
 void Game2048::getCoordMov(tDirection dir, tCoord &init, tCoord &incr)
 {
 	init.x = (dir == down) ? board.getDim() - 1 : 0;
@@ -159,6 +176,8 @@ void Game2048::getCoordMov(tDirection dir, tCoord &init, tCoord &incr)
 	incr.y = (dir == right) ? -1 : 1;
 }
 
+//It detects if you have any movement left 
+//when the board is full
 bool Game2048::moves_left()
 {
 	if (is_full())
@@ -175,6 +194,7 @@ bool Game2048::moves_left()
 	else return true;
 }
 
+//It detects if the board is full
 bool Game2048::is_full()
 {
 	bool full = true;

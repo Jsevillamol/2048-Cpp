@@ -1,5 +1,6 @@
 #include "tScore.h"
 
+//Just some operators
 bool operator <  (tScore s, long int i){ return (s.score <  i); }
 bool operator >= (tScore s, long int i){ return (s.score >= i); }
 

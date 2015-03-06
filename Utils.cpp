@@ -9,6 +9,8 @@ int log2(int x)
 	return i;
 }
 
+//It asks you for a digit, and makes sure that digit
+//is between the other two that it has as arguments
 int digitoEntre(int a, int b)
 {
 	int digito = -1;
@@ -35,7 +37,7 @@ int digitoEntre(int a, int b)
 	return digito;
 }
 
-//Añade una linea de guion
+//It adds a script line
 void linea()
 {
 	std::cout << std::setfill('-') << std::setw(79) << '-' << std::endl << std::setfill(' ');
