@@ -37,7 +37,7 @@ public:
 	Game2048(int d=DIM, int g=GOAL);
 
 	tBoard* getBoard(){ return &board; }
-	//HighScore* getHighscore(){ return &highscore; }
+	HighScore* getHighscore(){ return &highscore; }
 
 	void init();
 	void change_goal();

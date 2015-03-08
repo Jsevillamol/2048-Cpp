@@ -52,7 +52,7 @@ void tMenu::start()
 		}
 		else if (seleccion == 4)
 		{
-			std::cout << "Not implemented yet" << std::endl;
+			game.getHighscore()->show();
 		}
 
 	} while (seleccion != 0);
