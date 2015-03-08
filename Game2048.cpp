@@ -75,7 +75,6 @@ void Game2048::run()
 	if (key == ESCAPE) savefile.save();
 }
 
-//It detects if you make a movement, and
 //updates the board with your movement
 void Game2048::update(tDirection dir)
 {
@@ -120,7 +119,7 @@ int Game2048::max_tile()
 	return mx_tile;
 }
 
-//It detects if you make a movement
+//It moves the tiles and returns if a change has been made
 bool Game2048::tilt(tDirection dir)
 {
 	bool there_has_been_movement = false;
@@ -142,7 +141,7 @@ bool Game2048::tilt(tDirection dir)
 	return there_has_been_movement;
 }
 
-//It combine the board numbers which are put together
+//It combines the board numbers which are put together
 //when you make a movement (just if both numbers are the same)
 bool Game2048::combine_tiles(tDirection dir)
 {
