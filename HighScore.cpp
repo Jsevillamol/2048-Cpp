@@ -9,7 +9,7 @@
 //contents in the array hallOfFame[]
 void HighScore::load()
 {
-	std::string name = "HighScore_" + std::to_string(game->goal) + "_" + 
+	std::string name = "HighScore_" + std::to_string(std::pow(2, game->goal)) + "_" + 
 					   std::to_string(game->board.getDim()) + "x" +
 					   std::to_string(game->board.getDim()) + ".txt";
 	std::ifstream file(name);
@@ -21,7 +21,7 @@ void HighScore::load()
 	}
 	else
 	{
-		std::cout << "File not found. A new file will be created.";
+		std::cout << "File not found. A new file will be created." << std::endl;
 		for (int i = 0; i < N_HIGHSCORES; i++)
 		{
 			hallOfFame[i] = tScore();
@@ -32,7 +32,7 @@ void HighScore::load()
 //It saves the highscore file
 void HighScore::save()
 {
-	std::string name = "HighScore_" + std::to_string(game->goal) + "_" +
+	std::string name = "HighScore_" + std::to_string(std::pow(2, game->goal)) + "_" +
 		std::to_string(game->board.getDim()) + "x" +
 		std::to_string(game->board.getDim()) + ".txt";
 	std::ofstream file(name);
@@ -66,7 +66,7 @@ bool HighScore::new_highscore()
 {
 	load();
 
-	int i;
+	int i, j;
 
 	for (i = 0; hallOfFame[i] >= game->score && i<N_HIGHSCORES; i++){}
 
@@ -83,10 +83,10 @@ bool HighScore::new_highscore()
 
 		hallOfFame.highscores[i] = tScore(name, game->score);
 
-		if (i < 9)
-		{
-			hallOfFame.highscores[i+1] = tScore("???", 0);
-		}
+		for (j = 0; hallOfFame[j].name != "XXX"; j++){}
+
+		hallOfFame.highscores[j+1] = tScore("???", 0);
+		
 		save();
 		return true;
 	}

@@ -11,7 +11,8 @@
 Game2048::Game2048(int d, int g):
 	board(d),		goal(g),
 	score(0),		last_score(0), 
-	drawer(this),	savefile(this)//, highscore(this)
+	drawer(this),	savefile(this), 
+	highscore(this)
 {
 	std::srand(std::time(NULL));
 }
@@ -62,10 +63,10 @@ void Game2048::run()
 			update(tDirection(key));
 			drawer.draw();
 		}
-		//if (highscore.new_highscore())
-		//{
-		//	highscore.show();
-		////}
+		if (highscore.new_highscore())
+		{
+			highscore.show();
+		}
 		//if keep playing
 		//change_goal();
 		//key == UP

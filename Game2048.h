@@ -17,6 +17,7 @@ private:
 	Listener listener;
 	Drawer drawer;
 	SaveFile savefile;
+	HighScore highscore;
 	//HighScore highscore;
 
 	friend Drawer;
