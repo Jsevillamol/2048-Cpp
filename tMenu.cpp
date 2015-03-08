@@ -52,7 +52,7 @@ void tMenu::start()
 		}
 		else if (seleccion == 4)
 		{
-			std::cout << "Not implemented" << std::endl;
+			std::cout << "Not implemented yet" << std::endl;
 		}
 
 	} while (seleccion != 0);

@@ -9,7 +9,7 @@
 //contents in the array hallOfFame[]
 void HighScore::load()
 {
-	std::string name = "HighScore_" + std::to_string(std::pow(2, game->goal)) + "_" + 
+	std::string name = "HighScore_" + std::to_string(int(std::pow(2, game->goal))) + "_" + 
 					   std::to_string(game->board.getDim()) + "x" +
 					   std::to_string(game->board.getDim()) + ".txt";
 	std::ifstream file(name);
@@ -32,9 +32,9 @@ void HighScore::load()
 //It saves the highscore file
 void HighScore::save()
 {
-	std::string name = "HighScore_" + std::to_string(std::pow(2, game->goal)) + "_" +
-		std::to_string(game->board.getDim()) + "x" +
-		std::to_string(game->board.getDim()) + ".txt";
+	std::string name = "HighScore_" + std::to_string(int(std::pow(2, game->goal))) + "_" +
+		                std::to_string(game->board.getDim()) + "x" +
+		                std::to_string(game->board.getDim()) + ".txt";
 	std::ofstream file(name);
 
 	if (file.is_open())
