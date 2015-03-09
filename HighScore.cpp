@@ -52,6 +52,9 @@ void HighScore::save()
 //It shows the array's contents 
 void HighScore::show()
 {
+	std::cout << "Records (goal = " << int(std::pow(2, game->goal))
+		<< ", size = " << game->board.getDim() << "):" << std::endl;
+
 	for (int i = 0; i<N_HIGHSCORES; i++)
 	{
 		if (hallOfFame[i].name != "XXX")
@@ -87,8 +90,10 @@ bool HighScore::new_highscore()
 
 		for (j = 0; hallOfFame[j].name != "XXX"; j++){}
 
-		hallOfFame.highscores[j+1] = tScore();
-		
+		if (j < 9)
+		{
+			hallOfFame.highscores[j + 1] = tScore();
+		}
 		save();
 		return true;
 	}
