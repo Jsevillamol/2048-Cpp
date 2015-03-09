@@ -16,5 +16,6 @@ public:
 
 	void show();
 	bool new_highscore();
+	void insert(int position);
 };
 #endif

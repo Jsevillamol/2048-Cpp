@@ -76,20 +76,33 @@ bool HighScore::new_highscore()
 
 	if (hallOfFame[i] < game->score)
 	{
-		for (int k = 9; k>i; k--)
-		{
-			hallOfFame[k] = hallOfFame[k - 1];
-		}
-		std::string name;
-		std::cout << "Congratulations! NEW HIGHSCORE!" << 
-		std::endl << "What is your name?:" << std::endl;
-		std::cin.clear();
-		std::cin >> name;
-
-		hallOfFame.highscores[i] = tScore(name, game->score);
-
+		insert(i);
 		save();
 		return true;
 	}
 	else return false;
+}
+
+void HighScore::insert(int position)
+{
+	int j;
+
+	for (int k = 9; k>position; k--)
+	{
+		hallOfFame[k] = hallOfFame[k - 1];
+	}
+	std::string name;
+	std::cout << "Congratulations! NEW HIGHSCORE!" <<
+		std::endl << "What is your name?:" << std::endl;
+	std::cin.clear();
+	std::cin >> name;
+
+	hallOfFame.highscores[position] = tScore(name, game->score);
+
+	for (j = 0; hallOfFame[j].name != "XXX"; j++){}
+
+	if (j < 9)
+	{
+		hallOfFame.highscores[j + 1] = tScore("???", 0);
+	}
 }
