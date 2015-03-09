@@ -88,12 +88,6 @@ bool HighScore::new_highscore()
 
 		hallOfFame.highscores[i] = tScore(name, game->score);
 
-		for (j = 0; hallOfFame[j].name != "XXX"; j++){}
-
-		if (j < 9)
-		{
-			hallOfFame.highscores[j + 1] = tScore();
-		}
 		save();
 		return true;
 	}
