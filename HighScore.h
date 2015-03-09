@@ -16,6 +16,7 @@ public:
 
 	void show();
 	bool new_highscore();
+	std::string valid_username();
 	void insert(int position);
 };
 #endif

@@ -83,6 +83,24 @@ bool HighScore::new_highscore()
 	else return false;
 }
 
+//Evita nombre de usuario empiece por un numero, para evitar 
+//errores a la hora de buscar a ese usuario en el archivo stats.txtque el 
+std::string HighScore::valid_username()
+{
+	std::string name;
+
+	std::cin >> name;
+	std::cin.clear();
+
+	while (name.size() > 7)
+	{
+		std::cout << "Error, your name cannot have more than 7 characters" << std::endl;
+		std::cin >> name;
+		std::cin.clear();
+	}
+	return name;
+}
+
 void HighScore::insert(int position)
 {
 	int j;
@@ -95,7 +113,7 @@ void HighScore::insert(int position)
 	std::cout << "Congratulations! NEW HIGHSCORE!" <<
 		std::endl << "What is your name?:" << std::endl;
 	std::cin.clear();
-	std::cin >> name;
+	name = valid_username();
 
 	hallOfFame.highscores[position] = tScore(name, game->score);
 
@@ -103,6 +121,6 @@ void HighScore::insert(int position)
 
 	if (j < 9)
 	{
-		hallOfFame.highscores[j + 1] = tScore("???", 0);
+		hallOfFame.highscores[j] = tScore("???", 0);
 	}
 }
