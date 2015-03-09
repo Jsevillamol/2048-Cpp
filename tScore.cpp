@@ -10,7 +10,7 @@ std::ostream& operator << (std::ostream& out, tScore score)
 	return out;
 }
 
-std::istream& operator >> (std::istream& in, tScore score)
+std::istream& operator >> (std::istream& in, tScore &score)
 {
 	in >> score.name >> score.score;
 	return in;

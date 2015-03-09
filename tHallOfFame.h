@@ -6,6 +6,6 @@
 struct tHallOfFame
 {
 	tScore highscores[N_HIGHSCORES];
-	tScore& operator [] (int i) { return highscores[i]; }
+	tScore& operator [] (const int i) { return highscores[i]; }
 };
 #endif
