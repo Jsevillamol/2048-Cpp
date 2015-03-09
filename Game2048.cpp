@@ -54,25 +54,19 @@ void Game2048::run()
 	drawer.draw();
 
 	int key = UP;
-	//do
-	//{
 
-		while (key != ESCAPE && moves_left() && max_tile() < std::pow(2, goal))
-		{
-			key = listener.listen();
-			update(tDirection(key));
-			drawer.draw();
-		}
-		if (highscore.new_highscore())
-		{
-			highscore.show();
-		}
-		//if keep playing
-		//change_goal();
-		//key == UP
-	//} while (key != ESCAPE);
+	while (key != ESCAPE && moves_left() && max_tile() < goal)
+	{
+		key = listener.listen();
+		update(tDirection(key));
+		drawer.draw();
+	}
 
 	if (key == ESCAPE) savefile.save();
+	else if (highscore.new_highscore())
+	{
+		highscore.show();
+	}
 }
 
 //updates the board with your movement
@@ -114,7 +108,7 @@ int Game2048::max_tile()
 	for (int i = 0; i<board.getDim(); i++)
 		for (int j = 0; j<board.getDim(); j++)
 		{
-			if (std::pow(2,board(i, j)) > mx_tile) mx_tile = std::pow(2, board(i, j));
+			if (board(i, j) > mx_tile) mx_tile = board(i, j);
 		}
 	return mx_tile;
 }

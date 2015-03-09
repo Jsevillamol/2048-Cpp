@@ -16,7 +16,9 @@ void HighScore::load()
 
 	if (file.is_open())
 	{
-		for (int i = 0; i < N_HIGHSCORES && file >> hallOfFame[i]; i++);
+		for (int i = 0; i < N_HIGHSCORES; i++){
+			file >> hallOfFame[i];
+		}
 		file.close();
 	}
 	else
@@ -41,7 +43,7 @@ void HighScore::save()
 	{
 		for (int i = 0; i<N_HIGHSCORES; i++)
 		{
-			file << hallOfFame[i];
+			file << hallOfFame[i] << std::endl;
 		}
 		file.close();
 	}
@@ -50,7 +52,6 @@ void HighScore::save()
 //It shows the array's contents 
 void HighScore::show()
 {
-	load();
 	for (int i = 0; i<N_HIGHSCORES; i++)
 	{
 		if (hallOfFame[i].name != "XXX")
@@ -60,8 +61,8 @@ void HighScore::show()
 	}
 }
 
-//It check if the new score is a highscore, 
-//and update the array's contents
+//It checks if the new score is a highscore, 
+//and updates the array's contents
 bool HighScore::new_highscore()
 {
 	load();
@@ -77,7 +78,8 @@ bool HighScore::new_highscore()
 			hallOfFame[k] = hallOfFame[k - 1];
 		}
 		std::string name;
-		std::cout << "What is your name?:" << std::endl;
+		std::cout << "Congratulations! NEW HIGHSCORE!" << 
+		std::endl << "What is your name?:" << std::endl;
 		std::cin.clear();
 		std::cin >> name;
 
@@ -85,7 +87,7 @@ bool HighScore::new_highscore()
 
 		for (j = 0; hallOfFame[j].name != "XXX"; j++){}
 
-		hallOfFame.highscores[j+1] = tScore("???", 0);
+		hallOfFame.highscores[j+1] = tScore();
 		
 		save();
 		return true;

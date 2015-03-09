@@ -108,7 +108,7 @@ void Drawer::draw_row(int row)
 
 		for (int k = 0; k < game->board.getDim(); k++)
 		{
-			backgroundTextAtt(log2(std::pow(2,game->board(row, k))));
+			backgroundTextAtt(game->board(row, k));
 
 			if (j == 2 && game->board(row, k) != 0) std::cout << std::setw(7) << std::pow(2,game->board(row, k));
 			else std::cout << std::setw(7) << " ";

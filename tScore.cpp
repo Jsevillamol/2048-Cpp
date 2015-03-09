@@ -10,15 +10,8 @@ std::ostream& operator << (std::ostream& out, tScore score)
 	return out;
 }
 
-bool operator >> (std::istream& in, tScore score)
+std::istream& operator >> (std::istream& in, tScore score)
 {
-	std::string n;
-	in >> n;
-	if (n == "???")
-	{
-		score.name = n;
-		in >> score.score;
-		return true;
-	}
-	else return false;
+	in >> score.name >> score.score;
+	return in;
 }

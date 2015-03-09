@@ -45,7 +45,7 @@ bool SaveFile::load()
 {
 	std::fstream in;
 	std::cout << "Which save file do you want to load? (ENTER for New Game)" << std::endl;
-	std::cin.clear();
+	std::cin.sync();
 	getline(std::cin, file);
 	if (file != "")
 	{
