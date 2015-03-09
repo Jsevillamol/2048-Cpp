@@ -119,7 +119,7 @@ void HighScore::insert(int position)
 
 	for (j = 0; hallOfFame[j].name != "XXX"; j++){}
 
-	if (j < 9)
+	if ((j < 9) && (hallOfFame[j - 1].name != "???"))
 	{
 		hallOfFame[j] = tScore("???", 0);
 	}

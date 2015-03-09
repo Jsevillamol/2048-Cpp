@@ -22,6 +22,7 @@ void Game2048::init()
 {
 	board.reset();
 	gen_tile(); gen_tile();
+	last_score = 0; score = 0;
 }
 
 //It asks for an exponent of 2 
