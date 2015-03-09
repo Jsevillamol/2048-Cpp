@@ -70,7 +70,7 @@ bool HighScore::new_highscore()
 {
 	load();
 
-	int i, j;
+	int i;
 
 	for (i = 0; hallOfFame[i] >= game->score && i<N_HIGHSCORES; i++){}
 
