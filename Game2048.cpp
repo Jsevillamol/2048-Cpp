@@ -40,12 +40,18 @@ void Game2048::change_dim()
 {
 	int newDim;
 
-	std::cout << "What size of the board do you choose? (4-8)" << std::endl;
+	std::cout << "What size of the board do you choose? (4, 5, 6, 8)" << std::endl;
 
 	newDim = digitoEntre(4, 8);
-
-	getBoard()->changeDimension(newDim);
-
+	
+	if (newDim != 7)
+	{
+		getBoard()->changeDimension(newDim);
+	}
+	else
+	{
+		std::cout << "Error, the size of the board cannot be seven" << std::endl;
+	}
 }
 
 //It starts the game
