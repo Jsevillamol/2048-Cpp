@@ -41,7 +41,9 @@ public:
 
 	void init();
 	void change_goal();
+	int choose_target();
 	void change_dim();
+	int choose_size();
 	void run();
 	
 };

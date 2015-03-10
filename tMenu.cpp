@@ -52,9 +52,9 @@ void tMenu::start()
 		}
 		else if (seleccion == 4)
 		{
-			game.change_dim();
-			game.change_goal();
-			game.getHighscore()->load();
+			int target = game.choose_target(),
+				size   = game.choose_size();
+			game.getHighscore()->load(target, size);
 			game.getHighscore()->show();
 		}
 

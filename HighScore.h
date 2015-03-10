@@ -11,7 +11,7 @@ private:
 public:
 	HighScore(Game2048 *g) : game(g) {}
 
-	void load();
+	void load(int target, int size);
 	void save();
 
 	void show();

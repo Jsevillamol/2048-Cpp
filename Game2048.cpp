@@ -34,6 +34,13 @@ void Game2048::change_goal()
 	goal = digitoEntre(LOW_EXP_GOAL, MAX_EXP_GOAL);
 }
 
+int Game2048::choose_target()
+{
+	std::cout << "What exponent of 2 do you choose as goal?" << std::endl;
+
+	return std::pow(2, digitoEntre(LOW_EXP_GOAL, MAX_EXP_GOAL));
+}
+
 //It asks for the board dimension 
 //you want to play with
 void Game2048::change_dim()
@@ -44,14 +51,34 @@ void Game2048::change_dim()
 
 	newDim = digitoEntre(4, 8);
 	
-	if (newDim != 7)
+	while (newDim == 7)
 	{
-		getBoard()->changeDimension(newDim);
+		std::cout << "Error, the size of the board cannot be seven" << std::endl
+			<< "What size of the board do you choose? (4, 5, 6, 8)" << std::endl;
+
+		newDim = digitoEntre(4, 8);
 	}
-	else
+
+	board.changeDimension(newDim);
+}
+
+int Game2048::choose_size()
+{
+	int newDim;
+
+	std::cout << "What size of the board do you choose? (4, 5, 6, 8)" << std::endl;
+
+	newDim = digitoEntre(4, 8);
+
+	while (newDim == 7)
 	{
-		std::cout << "Error, the size of the board cannot be seven" << std::endl;
+		std::cout << "Error, the size of the board cannot be seven" << std::endl
+		    << "What size of the board do you choose? (4, 5, 6, 8)" << std::endl;
+
+		newDim = digitoEntre(4, 8);
 	}
+
+	return newDim;
 }
 
 //It starts the game

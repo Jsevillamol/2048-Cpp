@@ -7,11 +7,11 @@
 
 //It loads the highscore file, ant put its
 //contents in the array hallOfFame[]
-void HighScore::load()
+void HighScore::load(int target, int size)
 {
-	std::string name = "HighScore_" + std::to_string(int(std::pow(2, game->goal))) + "_" + 
-					   std::to_string(game->board.getDim()) + "x" +
-					   std::to_string(game->board.getDim()) + ".txt";
+	std::string name = "HighScore_" + std::to_string(target) + "_" + 
+					   std::to_string(size) + "x" +
+					   std::to_string(size) + ".txt";
 	std::ifstream file(name);
 
 	if (file.is_open())
@@ -73,7 +73,7 @@ void HighScore::show()
 //and updates the array's contents
 bool HighScore::new_highscore()
 {
-	load();
+	load(int(std::pow(2, game->goal)), game->board.getDim());
 
 	int i;
 
@@ -96,9 +96,9 @@ std::string HighScore::valid_username()
 	std::cin >> name;
 	std::cin.clear();
 
-	while (name.size() > 7)
+	while (name.size() > 14)
 	{
-		std::cout << "Error, your name cannot have more than seven characters" << std::endl;
+		std::cout << "Error, your name cannot have more than fourteen characters" << std::endl;
 		std::cin >> name;
 		std::cin.clear();
 	}
