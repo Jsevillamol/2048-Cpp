@@ -2,13 +2,6 @@
 #include <iostream>
 #include <iomanip>
 
-int log2(int x)
-{
-	int i;
-	for (i = 0; std::pow(2, i) < x; i++);
-	return i;
-}
-
 //It asks you for a digit, and makes sure that digit
 //is between the other two that it has as arguments
 int digitoEntre(int a, int b)
