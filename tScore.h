@@ -2,6 +2,7 @@
 #define TSCORE
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 struct tScore
 {

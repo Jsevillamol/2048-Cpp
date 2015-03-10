@@ -61,8 +61,19 @@ void HighScore::show()
 		{
 			if (hallOfFame[i].name != "???")
 			{
-				std::cout << (i + 1) << ": ";
-			}			
+				if (i < 9)
+				{
+					std::cout << " " << (i + 1) << ": ";
+				}
+				else
+				{
+					std::cout << (i + 1) << ": ";
+				}
+			}
+			else
+			{
+				std::cout << "    ";
+			}
 			std::cout << hallOfFame[i] << std::endl;
 		}
 	}

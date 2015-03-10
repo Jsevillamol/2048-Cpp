@@ -6,14 +6,7 @@ bool operator >= (tScore s, long int i){ return (s.score >= i); }
 
 std::ostream& operator << (std::ostream& out, tScore score)
 {
-	if (score.name.size() < 5)
-	{
-		out << score.name << "\t" << "\t" << score.score;
-	}
-	else
-	{
-		out << score.name << "\t" << score.score;
-	}
+	out << std::left << std::setw(20) << score.name << score.score;
 	return out;
 }
 
