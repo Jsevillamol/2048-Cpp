@@ -92,13 +92,14 @@ bool HighScore::new_highscore()
 std::string HighScore::valid_username()
 {
 	std::string name;
+	int i = 11;
 
 	std::cin >> name;
 	std::cin.clear();
 
-	while (name.size() > 14)
+	while (name.size() > i)
 	{
-		std::cout << "Error, your name cannot have more than fourteen characters" << std::endl;
+		std::cout << "Error, your name cannot have more than " << i << " characters" << std::endl;
 		std::cin >> name;
 		std::cin.clear();
 	}
