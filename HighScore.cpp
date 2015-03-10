@@ -59,9 +59,14 @@ void HighScore::show()
 	{
 		if (hallOfFame[i].name != "XXX")
 		{
+			if (hallOfFame[i].name != "???")
+			{
+				std::cout << (i + 1) << ": ";
+			}			
 			std::cout << hallOfFame[i] << std::endl;
 		}
 	}
+	std::cout << std::endl;
 }
 
 //It checks if the new score is a highscore, 

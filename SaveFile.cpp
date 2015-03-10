@@ -47,6 +47,7 @@ bool SaveFile::save()
 //It asks you what file do you want to load
 bool SaveFile::load()
 {
+	int lastDim;
 	std::fstream in;
 	std::cout << "Which save file do you want to load? (ENTER for New Game)" << std::endl;
 	std::cin.sync();
@@ -56,8 +57,9 @@ bool SaveFile::load()
 		in.open(file, std::fstream::in);
 		if (in.is_open())
 		{
-			in >> game->goal >> game->board.getDim();
+			in >> game->goal >> lastDim;
 			//Load the board
+			game->board.changeDimension(lastDim);
 			for (int i = 0; i < game->board.getDim(); i++)
 			{
 				for (int j = 0; j < game->board.getDim(); j++)
