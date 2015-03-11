@@ -4,9 +4,9 @@ class Game2048;
 class Drawer
 {
 private:
-	Game2048 *game;
+	Game2048* game;
 public:
-	Drawer(Game2048 *g);
+	Drawer(Game2048* g);
 	void draw();
 	void clearConsole();
 	void draw_row(int row);

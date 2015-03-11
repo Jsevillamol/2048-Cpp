@@ -34,9 +34,9 @@ void HighScore::load(int target, int size)
 //It saves the highscore file
 void HighScore::save()
 {
-	std::string name = "HighScore_" + std::to_string(int(std::pow(2, game->goal))) + "_" +
-		                std::to_string(game->board.getDim()) + "x" +
-		                std::to_string(game->board.getDim()) + ".txt";
+	std::string name = "HighScore_" + std::to_string(int(std::pow(2, *(game->getGoal())))) + "_" +
+		                std::to_string(game->getBoard()->getDim()) + "x" +
+						std::to_string(game->getBoard()->getDim()) + ".txt";
 	std::ofstream file(name);
 
 	if (file.is_open())
@@ -52,8 +52,8 @@ void HighScore::save()
 //It shows the array's contents 
 void HighScore::show()
 {
-	std::cout << "Records (goal = " << int(std::pow(2, game->goal))
-		<< ", size = " << game->board.getDim() << "):" << std::endl;
+	std::cout << "Records (goal = " << int(std::pow(2, *(game->getGoal())))
+		<< ", size = " << game->getBoard()->getDim() << "):" << std::endl;
 
 	for (int i = 0; i<N_HIGHSCORES; i++)
 	{
@@ -84,13 +84,13 @@ void HighScore::show()
 //and updates the array's contents
 bool HighScore::new_highscore()
 {
-	load(int(std::pow(2, game->goal)), game->board.getDim());
+	load(int(std::pow(2, *(game->getGoal()))), game->getBoard()->getDim());
 
 	int i;
 
-	for (i = 0; hallOfFame[i] >= game->score && i<N_HIGHSCORES; i++){}
+	for (i = 0; hallOfFame[i] >= *(game->getScore()) && i<N_HIGHSCORES; i++){}
 
-	if (hallOfFame[i] < game->score)
+	if (hallOfFame[i] < *(game->getScore()))
 	{
 		insert(i);
 		save();
@@ -142,7 +142,7 @@ void HighScore::insert(int position)
 	std::cout << "Congratulations! NEW HIGHSCORE!" << std::endl;
 	name = valid_username();
 
-	hallOfFame.highscores[position] = tScore(name, game->score);
+	hallOfFame.highscores[position] = tScore(name, *(game->getScore()));
 
 	for (j = 0; hallOfFame[j].name != "XXX"; j++){}
 

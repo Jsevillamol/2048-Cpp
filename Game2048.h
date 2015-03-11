@@ -11,18 +11,14 @@
 class Game2048
 {
 private:
-	tBoard board;
+
 	long int score, last_score, goal;
 
 	Listener listener;
 	Drawer drawer;
 	SaveFile savefile;
+	tBoard board;
 	HighScore highscore;
-	//HighScore highscore;
-
-	friend Drawer;
-	friend SaveFile;
-	friend HighScore;
 
 	void update(tDirection dir);
 	void gen_tile();
@@ -36,8 +32,15 @@ private:
 public:
 	Game2048(int d=DIM, int g=GOAL);
 
+	Listener* getListener(){ return &listener; }
+	Drawer* getDrawer(){ return &drawer; }
+	SaveFile* getSavefile(){ return &savefile; }
 	tBoard* getBoard(){ return &board; }
 	HighScore* getHighscore(){ return &highscore; }
+
+	long int* getScore(){ return &score; }
+	long int* getLast_score(){ return &last_score; }
+	long int* getGoal(){ return &goal; }
 
 	void init();
 	void change_goal();

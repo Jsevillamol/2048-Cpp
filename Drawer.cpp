@@ -17,16 +17,16 @@ void Drawer::draw()
 	//system("pause");
 	clearConsole();
 
-	std::cout << "Move: " << game->last_score << "   "
-		<< "Score: " << game->score << "   "
-		<< "Goal: " << std::pow(2, game->goal) << std::endl;
+	std::cout << "Move: " << *(game->getLast_score()) << "   "
+		<< "Score: " << *(game->getScore()) << "   "
+		<< "Goal: " << std::pow(2, *(game->getGoal())) << std::endl;
 
 	upper_border();
 
-	for (int i = 0; i < game->board.getDim(); i++)
+	for (int i = 0; i < game->getBoard()->getDim(); i++)
 	{
 		draw_row(i);
-		if (i<(game->board.getDim() - 1)) interior_border();
+		if (i<(game->getBoard()->getDim()) - 1) interior_border();
 	}
 	lower_border();
 }
@@ -49,11 +49,11 @@ void Drawer::upper_border()
 {
 	std::cout << char(upper_left_corner);
 
-	for (int i = 0; i < game->board.getDim(); i++)
+	for (int i = 0; i < game->getBoard()->getDim(); i++)
 	{
 		horizontal();
 
-		if (i != (game->board.getDim() - 1))
+		if (i != (game->getBoard()->getDim() - 1))
 		{
 			std::cout << char(no_upper_carfax);
 		}
@@ -70,11 +70,11 @@ void Drawer::lower_border()
 {
 	std::cout << char(lower_lenf_corner);
 
-	for (int i = 0; i < game->board.getDim(); i++)
+	for (int i = 0; i < game->getBoard()->getDim(); i++)
 	{
 		horizontal();
 
-		if (i != (game->board.getDim() - 1))	std::cout << char(no_lower_carfax);
+		if (i != (game->getBoard()->getDim() - 1))	std::cout << char(no_lower_carfax);
 		else std::cout << char(lower_right_corner) << std::endl;
 	}
 }
@@ -84,11 +84,11 @@ void Drawer::interior_border()
 {
 	std::cout << char(no_left_carfax);
 
-	for (int i = 0; i < game->board.getDim(); i++)
+	for (int i = 0; i < game->getBoard()->getDim(); i++)
 	{
 		horizontal();
 
-		if (i != (game->board.getDim() - 1))
+		if (i != (game->getBoard()->getDim() - 1))
 		{
 			std::cout << char(carfax);
 		}
@@ -106,11 +106,11 @@ void Drawer::draw_row(int row)
 	{
 		std::cout << char(upright_line);
 
-		for (int k = 0; k < game->board.getDim(); k++)
+		for (int k = 0; k < game->getBoard()->getDim(); k++)
 		{
-			backgroundTextAtt(game->board(row, k));
+			backgroundTextAtt((*game->getBoard())(row, k));
 
-			if (j == 2 && game->board(row, k) != 0) std::cout << std::setw(7) << std::pow(2,game->board(row, k));
+			if (j == 2 && (*game->getBoard())(row, k) != 0) std::cout << std::setw(7) << std::pow(2, (*game->getBoard())(row, k));
 			else std::cout << std::setw(7) << " ";
 
 			backgroundTextAtt(0);

@@ -21,17 +21,17 @@ bool SaveFile::save()
 		std::fstream out(((s == "") ? file : s), std::ios::out);
 		if (out.is_open())
 		{
-			out << game->goal << " " << game->board.getDim() << std::endl;
+			out << game->getGoal() << " " << game->getBoard()->getDim() << std::endl;
 			
-			for (int row = 0; row < game->board.getDim(); row++)
+			for (int row = 0; row < game->getBoard()->getDim(); row++)
 			{
-				for (int col = 0; col < game->board.getDim(); col++)
+				for (int col = 0; col < game->getBoard()->getDim(); col++)
 				{
-					out << game->board(row, col) << std::endl;
+					out << (*(game->getBoard()))(row, col) << std::endl;
 				}
 			}
 			
-			out << game->score;
+			out << game->getScore();
 			
 			return true;
 		}
@@ -57,18 +57,18 @@ bool SaveFile::load()
 		in.open(file, std::fstream::in);
 		if (in.is_open())
 		{
-			in >> game->goal >> lastDim;
+			in >> *(game->getGoal()) >> lastDim;
 			//Load the board
-			game->board.changeDimension(lastDim);
-			for (int i = 0; i < game->board.getDim(); i++)
+			game->getBoard()->changeDimension(lastDim);
+			for (int i = 0; i < game->getBoard()->getDim(); i++)
 			{
-				for (int j = 0; j < game->board.getDim(); j++)
+				for (int j = 0; j < game->getBoard()->getDim(); j++)
 				{
-					in >> game->board(i, j);
+					in >> (*(game->getBoard()))(i, j);
 				}
 			}
 			
-			in >> game->score;
+			in >> *(game->getScore());
 			
 			in.close();
 			return true;
