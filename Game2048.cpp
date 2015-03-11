@@ -10,7 +10,6 @@
 
 Game2048::Game2048(int d, int g):
 	board(d),		goal(g),
-	score(0),		last_score(0), 
 	drawer(this),	savefile(this), 
 	highscore(this)
 {
@@ -155,8 +154,8 @@ bool Game2048::tilt(tDirection dir)
 
 	getCoordMov(dir, init, incr);
 
-	for (int i = init.x; 0 <= i && i<board.getDim(); i += incr.x)
-		for (int j = init.y; 0 <= j && j<board.getDim(); j += incr.y)
+	for (int i = init.x; 0 <= i && i<tBoard::getDim(); i += incr.x)
+		for (int j = init.y; 0 <= j && j<tBoard::getDim(); j += incr.y)
 		{
 			while (board(i, j) != 0 && board[tCoord(i, j).next(dir)] == 0)
 			{
@@ -175,9 +174,9 @@ bool Game2048::combine_tiles(tDirection dir)
 {
 	tCoord init, incr; bool change = false;
 	getCoordMov(dir, init, incr);
-	for (int i = init.x; 0 <= i && i < board.getDim(); i += incr.x)
+	for (int i = init.x; 0 <= i && i < tBoard::getDim(); i += incr.x)
 	{
-		for (int j = init.y; 0 <= j && j < board.getDim(); j += incr.y)
+		for (int j = init.y; 0 <= j && j < tBoard::getDim(); j += incr.y)
 		{
 			if (board(i, j) != 0 && (tCoord(i, j) != tCoord(i, j).next(dir))) //Check for borders
 			{
@@ -198,8 +197,8 @@ bool Game2048::combine_tiles(tDirection dir)
 
 void Game2048::getCoordMov(tDirection dir, tCoord &init, tCoord &incr)
 {
-	init.x = (dir == down) ? board.getDim() - 1 : 0;
-	init.y = (dir == right) ? board.getDim() - 1 : 0;
+	init.x = (dir == down) ? tBoard::getDim() - 1 : 0;
+	init.y = (dir == right) ? tBoard::getDim() - 1 : 0;
 	incr.x = (dir == down) ? -1 : 1;
 	incr.y = (dir == right) ? -1 : 1;
 }
@@ -226,8 +225,8 @@ bool Game2048::moves_left()
 bool Game2048::is_full()
 {
 	bool full = true;
-	for (int i = 0; i<board.getDim() && full; i++)
-		for (int j = 0; j<board.getDim() && full; j++)
+	for (int i = 0; i<tBoard::getDim() && full; i++)
+		for (int j = 0; j<tBoard::getDim() && full; j++)
 		{
 			if (board(i, j) == 0) full = false;
 		}

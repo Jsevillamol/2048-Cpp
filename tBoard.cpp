@@ -1,4 +1,7 @@
 #include "tBoard.h"
+#include "tCoord.h"
+
+int tBoard::dim;
 
 tBoard::tBoard(int d)
 {
@@ -49,3 +52,5 @@ void tBoard::reset()
 		for (int j = 0; j<dim; j++)
 			board[i][j] = 0;
 }
+
+int& tBoard::operator [](const tCoord coord) { return board[coord.x][coord.y]; }

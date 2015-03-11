@@ -35,8 +35,7 @@ void HighScore::load(int target, int size)
 void HighScore::save()
 {
 	std::string name = "HighScore_" + std::to_string(int(std::pow(2, *(game->getGoal())))) + "_" +
-		                std::to_string(game->getBoard()->getDim()) + "x" +
-						std::to_string(game->getBoard()->getDim()) + ".txt";
+		std::to_string(tBoard::getDim()) + "x" + std::to_string(tBoard::getDim()) + ".txt";
 	std::ofstream file(name);
 
 	if (file.is_open())
@@ -53,7 +52,7 @@ void HighScore::save()
 void HighScore::show()
 {
 	std::cout << "Records (goal = " << int(std::pow(2, *(game->getGoal())))
-		<< ", size = " << game->getBoard()->getDim() << "):" << std::endl;
+		<< ", size = " << tBoard::getDim() << "):" << std::endl;
 
 	for (int i = 0; i<N_HIGHSCORES; i++)
 	{
@@ -84,7 +83,7 @@ void HighScore::show()
 //and updates the array's contents
 bool HighScore::new_highscore()
 {
-	load(int(std::pow(2, *(game->getGoal()))), game->getBoard()->getDim());
+	load(int(std::pow(2, *(game->getGoal()))), tBoard::getDim());
 
 	int i;
 

@@ -23,10 +23,10 @@ void Drawer::draw()
 
 	upper_border();
 
-	for (int i = 0; i < game->getBoard()->getDim(); i++)
+	for (int i = 0; i < tBoard::getDim(); i++)
 	{
 		draw_row(i);
-		if (i<(game->getBoard()->getDim()) - 1) interior_border();
+		if (i<(tBoard::getDim()) - 1) interior_border();
 	}
 	lower_border();
 }
@@ -49,11 +49,11 @@ void Drawer::upper_border()
 {
 	std::cout << char(upper_left_corner);
 
-	for (int i = 0; i < game->getBoard()->getDim(); i++)
+	for (int i = 0; i < tBoard::getDim(); i++)
 	{
 		horizontal();
 
-		if (i != (game->getBoard()->getDim() - 1))
+		if (i != (tBoard::getDim() - 1))
 		{
 			std::cout << char(no_upper_carfax);
 		}
@@ -70,11 +70,11 @@ void Drawer::lower_border()
 {
 	std::cout << char(lower_lenf_corner);
 
-	for (int i = 0; i < game->getBoard()->getDim(); i++)
+	for (int i = 0; i < tBoard::getDim(); i++)
 	{
 		horizontal();
 
-		if (i != (game->getBoard()->getDim() - 1))	std::cout << char(no_lower_carfax);
+		if (i != (tBoard::getDim() - 1))	std::cout << char(no_lower_carfax);
 		else std::cout << char(lower_right_corner) << std::endl;
 	}
 }
@@ -84,11 +84,11 @@ void Drawer::interior_border()
 {
 	std::cout << char(no_left_carfax);
 
-	for (int i = 0; i < game->getBoard()->getDim(); i++)
+	for (int i = 0; i < tBoard::getDim(); i++)
 	{
 		horizontal();
 
-		if (i != (game->getBoard()->getDim() - 1))
+		if (i != (tBoard::getDim() - 1))
 		{
 			std::cout << char(carfax);
 		}
@@ -106,7 +106,7 @@ void Drawer::draw_row(int row)
 	{
 		std::cout << char(upright_line);
 
-		for (int k = 0; k < game->getBoard()->getDim(); k++)
+		for (int k = 0; k < tBoard::getDim(); k++)
 		{
 			backgroundTextAtt((*game->getBoard())(row, k));
 
