@@ -37,7 +37,7 @@ void Drawer::clearConsole(){ system("cls"); }
 //line which forms each box
 void Drawer::horizontal()
 {
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		std::cout << char(horizontal_line);
 	}
@@ -102,7 +102,7 @@ void Drawer::interior_border()
 //It draws a row
 void Drawer::draw_row(int row)
 {
-	for (int j = 0; j < 5; j++)
+	for (int j = 0; j < 3; j++)
 	{
 		std::cout << char(upright_line);
 
@@ -110,8 +110,8 @@ void Drawer::draw_row(int row)
 		{
 			backgroundTextAtt((*game->getBoard())(row, k));
 
-			if (j == 2 && (*game->getBoard())(row, k) != 0) std::cout << std::setw(7) << std::pow(2, (*game->getBoard())(row, k));
-			else std::cout << std::setw(7) << " ";
+			if (j == 1 && (*game->getBoard())(row, k) != 0) std::cout << std::setw(6) << std::pow(2, (*game->getBoard())(row, k));
+			else std::cout << std::setw(6) << " ";
 
 			backgroundTextAtt(0);
 
