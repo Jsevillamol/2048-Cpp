@@ -6,7 +6,7 @@ bool operator >= (tScore s, long int i){ return (s.score >= i); }
 
 std::ostream& operator << (std::ostream& out, tScore score)
 {
-	out << std::left << std::setw(20) << score.name << score.score;
+	out << std::setw(10) << std::left << score.name << score.score;
 	return out;
 }
 

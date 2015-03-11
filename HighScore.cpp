@@ -103,15 +103,27 @@ bool HighScore::new_highscore()
 std::string HighScore::valid_username()
 {
 	std::string name;
-	int i = 11;
+	int i = 9, j = 4;
 
-	std::cin >> name;
+	std::cout << "What is your name?:" << std::endl;
+	std::cin  >> name;
 	std::cin.clear();
 
-	while (name.size() > i)
+	while ((name.size() > i) || (name.size() < j))
 	{
-		std::cout << "Error, your name cannot have more than " << i << " characters" << std::endl;
-		std::cin >> name;
+		std::cout << "Error, your name cannot have";
+
+		if (name.size() > i)
+		{
+			std::cout << " more than " << i;
+		}
+		else if (name.size() < j)
+		{
+			std::cout << " less than " << j;
+		}
+		std::cout << " characters" << std::endl
+		  << "What is your name?:" << std::endl;
+		std::cin  >> name;
 		std::cin.clear();
 	}
 	return name;
@@ -127,9 +139,7 @@ void HighScore::insert(int position)
 		hallOfFame[k] = hallOfFame[k - 1];
 	}
 	std::string name;
-	std::cout << "Congratulations! NEW HIGHSCORE!" <<
-		std::endl << "What is your name?:" << std::endl;
-	std::cin.clear();
+	std::cout << "Congratulations! NEW HIGHSCORE!" << std::endl;
 	name = valid_username();
 
 	hallOfFame.highscores[position] = tScore(name, game->score);
