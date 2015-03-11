@@ -38,9 +38,12 @@ public:
 	tBoard* getBoard(){ return &board; }
 	HighScore* getHighscore(){ return &highscore; }
 
-	long int* getScore(){ return &score; }
-	long int* getLast_score(){ return &last_score; }
-	long int* getGoal(){ return &goal; }
+	long int getScore(){ return score; }
+	long int getLast_score(){ return last_score; }
+	long int getGoal(){ return goal; }
+
+	void setGoal(int i){ goal = i; }
+	void setScore(int i){ score = i; }
 
 	void init();
 	void change_goal();

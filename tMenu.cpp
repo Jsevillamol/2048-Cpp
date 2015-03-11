@@ -8,7 +8,9 @@
 //It asks you what do you want to do
 int tMenu::menuIni()
 {
-	std::cout << "1- Play" << std::endl
+	std::cout << "Goal: " << std::pow(2, game.getGoal()) << "   "<< "Size: " 
+		<< tBoard::getDim() << "x" << tBoard::getDim() << std::endl
+		<< "1- Play" << std::endl
 		<< "2- Change Dimension" <<std::endl
 		<< "3- Change goal" <<std::endl
 		<< "4- Records" << std::endl

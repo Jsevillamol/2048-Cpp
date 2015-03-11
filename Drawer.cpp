@@ -17,9 +17,9 @@ void Drawer::draw()
 	//system("pause");
 	clearConsole();
 
-	std::cout << "Move: " << *(game->getLast_score()) << "   "
-		<< "Score: " << *(game->getScore()) << "   "
-		<< "Goal: " << std::pow(2, *(game->getGoal())) << std::endl;
+	std::cout << "Move: " << game->getLast_score() << "   "
+		<< "Score: " << game->getScore() << "   "
+		<< "Goal: " << std::pow(2, game->getGoal()) << std::endl;
 
 	upper_border();
 
