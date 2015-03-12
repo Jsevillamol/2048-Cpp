@@ -19,18 +19,6 @@ int tMenu::menuIni()
 	return digitoEntre(0,4);
 }
 
-//It allows you to choose what to do
-//when you reach the goal
-//int tMenu::menuGoal()
-//{
-//	std::cout << "You've reached the goal, what do you want to do?: " << std::endl
-//		<< "1- Continue " << std::endl
-//		<< "2- Replay " << std::endl
-//		<< "0- Exit " << std::endl;
-//
-//	return digitoEntre(0,2);
-//}
-
 //Internal part of "menuIni()"
 void tMenu::start()
 {
