@@ -29,6 +29,8 @@ void Drawer::draw()
 		if (i<(tBoard::getDim()) - 1) interior_border();
 	}
 	lower_border();
+
+	std::cout << "Use the arrows (ESC for exit)" << std::endl;
 }
 
 void Drawer::clearConsole(){ system("cls"); }
