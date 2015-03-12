@@ -6,6 +6,7 @@ class Drawer
 {
 private:
 	Game2048* game;
+	int hlenght = 6, vlenght = 3;
 public:
 	Drawer(Game2048* g);
 	void draw();
