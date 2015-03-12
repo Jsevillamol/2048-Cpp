@@ -1,6 +1,6 @@
 #ifndef GAME2048
 #define GAME2048
-#include "Listener.h"
+#include "utilsWin.h"
 #include "Drawer.h"
 #include "SaveFile.h"
 #include "HighScore.h"
@@ -14,7 +14,6 @@ private:
 
 	long int score, last_score, goal;
 
-	Listener listener;
 	Drawer drawer;
 	SaveFile savefile;
 	tBoard board;
@@ -32,7 +31,6 @@ private:
 public:
 	Game2048(int d=DIM, int g=GOAL);
 
-	Listener* getListener(){ return &listener; }
 	Drawer* getDrawer(){ return &drawer; }
 	SaveFile* getSavefile(){ return &savefile; }
 	tBoard* getBoard(){ return &board; }

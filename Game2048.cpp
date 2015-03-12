@@ -6,7 +6,7 @@
 
 #include "GlobalConstants.h"
 #include "Utils.h"
-#include "keys.h"
+#include "utilsWin.h"
 
 Game2048::Game2048(int d, int g):
 	board(d),		goal(g),
@@ -90,7 +90,7 @@ void Game2048::run()
 
 	while (key != ESCAPE && moves_left() && max_tile() < goal)
 	{
-		key = listener.listen();
+		key = listen();
 		update(tDirection(key));
 		drawer.draw();
 	}

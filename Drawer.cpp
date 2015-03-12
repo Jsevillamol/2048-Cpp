@@ -2,7 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include "Game2048.h"
-#include "winUtils.h"
+#include "utilsWin.h"
 #include "CharConstants.h"
 
 Drawer::Drawer(Game2048 *g) :game(g)
