@@ -112,7 +112,7 @@ void Drawer::draw_row(int row)
 		{
 			backgroundTextAtt((*game->getBoard())(row, k));
 
-			if (j == 1 && (*game->getBoard())(row, k) != 0) std::cout << std::setw(6) << std::pow(2, (*game->getBoard())(row, k));
+			if (j == 1 && (*game->getBoard())(row, k) != 0) std::cout << std::setw(6) << center_number(std::to_string(int(std::pow(2, (*game->getBoard())(row, k)))), 6);
 			else std::cout << std::setw(6) << " ";
 
 			backgroundTextAtt(0);
@@ -120,5 +120,26 @@ void Drawer::draw_row(int row)
 			std::cout << char(upright_line);
 		}
 		std::cout << std::endl;
+	}
+}
+
+std::string Drawer::center_number(std::string number, int lenght)
+{
+	if (number.size() == lenght) return number;
+
+	else
+	{
+		for (int i = number.size(); i < lenght; i++)
+		{
+			if (number.size() % 2 == 0)
+			{
+				number = number + " ";
+			}
+			else if (number.size() % 2 == 1)
+			{
+				number = " " + number;
+			}
+		}
+		return number;
 	}
 }

@@ -1,5 +1,6 @@
 #ifndef DRAWER
 #define DRAWER
+#include <string>
 class Game2048;
 class Drawer
 {
@@ -14,5 +15,6 @@ public:
 	void lower_border();
 	void interior_border();
 	void horizontal();
+	std::string center_number(std::string number, int size);
 };
 #endif
