@@ -35,10 +35,3 @@ void linea()
 {
 	std::cout << std::setfill('-') << std::setw(79) << '-' << std::endl << std::setfill(' ');
 }
-
-//It pauses the program
-void pause()
-{
-	std::cin.sync();
-	std::cin.get();
-}
