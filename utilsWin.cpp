@@ -20,7 +20,7 @@ void backgroundTextAtt(int color)
 	SetConsoleTextAttribute(hStdOut, 15 | (color << 4));
 }
 
-int listen()
+int getKey()
 {
 	int key; DWORD cNumRead; INPUT_RECORD irInBuf;
 	HANDLE hStdIn = GetStdHandle(STD_INPUT_HANDLE);

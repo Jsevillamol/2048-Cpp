@@ -90,7 +90,7 @@ void Game2048::run()
 
 	while (key != ESCAPE && moves_left() && max_tile() < goal)
 	{
-		key = listen();
+		key = getKey();
 		update(tDirection(key));
 		drawer.draw();
 	}

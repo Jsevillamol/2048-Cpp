@@ -3,7 +3,7 @@
 inline void cpConsoleOut(int cp);
 void fontConsole();
 void backgroundTextAtt(int color);
-int listen();
+int getKey();
 
 #include <Windows.h>
 
