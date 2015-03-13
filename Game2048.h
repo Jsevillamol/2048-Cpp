@@ -45,10 +45,13 @@ public:
 
 	void init();
 	void change_goal();
+	void upgrade_goal();
 	int choose_target();
 	void change_dim();
 	int choose_size();
 	void run();
+	void inGame(int key);
+	void reach_goal(int key);
 	void end(int key);
 	
 };

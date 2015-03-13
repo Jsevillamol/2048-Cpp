@@ -33,6 +33,37 @@ void Game2048::change_goal()
 	goal = digitoEntre(LOW_EXP_GOAL, MAX_EXP_GOAL);
 }
 
+void Game2048::upgrade_goal()
+{
+	int newGoal;
+
+	do
+	{
+		std::cout << "What exponent of 2 do you choose as goal?" << std::endl;
+
+		std::cin.sync(); //Por si quedan datos basura en el buffer
+		std::cin >> newGoal;
+
+		if (std::cin.fail())
+		{
+			std::cout << "Error, enter a digit" << std::endl;
+			std::cin.clear();
+		}
+		else if (newGoal < goal)
+		{
+			std::cout << "Error, you cannot reach a lower goal than you already reached" << std::endl;
+		}
+		else if (newGoal == goal)
+		{
+			std::cout << "Error, you've just reached this goal" << std::endl;
+		}
+		else if (newGoal > MAX_EXP_GOAL)
+		{
+			std::cout << "Error, the goal cannot be over " << int(std::pow(2, MAX_EXP_GOAL)) << std::endl;
+		}
+	} while (newGoal <= goal || newGoal > MAX_EXP_GOAL);
+}
+
 int Game2048::choose_target()
 {
 	std::cout << "What exponent of 2 do you choose as goal?" << std::endl;
@@ -88,13 +119,52 @@ void Game2048::run()
 
 	int key = UP;
 
+	inGame(key);
+}
+
+void Game2048::inGame(int key)
+{
 	while (key != ESCAPE && moves_left() && max_tile() < goal)
 	{
 		key = getKey();
 		update(tDirection(key));
 		drawer.draw();
+	} 
+
+	if (max_tile() == goal)
+	{
+		reach_goal(key);
 	}
-	end(key);
+	else end(key);
+}
+
+void Game2048::reach_goal(int key)
+{
+	int choose;
+
+	std::cout << "What do you yant to do?:" << std::endl
+		<< "1- Continue (Choose a higher goal)" << std::endl
+		<< "2- Replay (You cannot change the goal or size)" << std::endl
+		<< "0- Exit to main menu" << std::endl << std::endl;
+
+	choose = digitoEntre(0, 2);
+
+	if (choose == 1)
+	{
+		if (goal == MAX_EXP_GOAL)
+		{
+			std::cout << "Error, you cannot reach a higher goal" << std::endl;
+		}
+		else
+		{
+			upgrade_goal();
+			inGame(key);
+		}
+	}
+	else if (choose == 2)
+	{
+		run();
+	}
 }
 
 //updates the board with your movement
