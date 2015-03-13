@@ -24,5 +24,7 @@ public:
 
 	int& operator [](const tCoord coord);
 	int& operator ()(const int i, const int j) { return board[i][j]; }
+	int& operator ()(const int i, const int j) const { return board[i][j]; }
 };
 #endif
+ 

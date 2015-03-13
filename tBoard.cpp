@@ -16,7 +16,7 @@ tBoard::tBoard(const tBoard &oldBoard)
 	{
 		for (int j=0; j < oldBoard.getDim(); j++)
 		{
-			Board(i, j) = oldBoard(i, j);
+			(*this)(i, j) = oldBoard(i, j);
 		}
 	}
 }

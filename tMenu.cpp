@@ -45,7 +45,7 @@ void tMenu::start()
 			int target = game.choose_target(),
 				size   = game.choose_size();
 			game.getHighscore()->load(target, size);
-			game.getHighscore()->show();
+			game.getHighscore()->show(target, size);
 		}
 
 	} while (seleccion != 0);

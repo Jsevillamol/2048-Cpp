@@ -12,6 +12,14 @@ bool SaveFile::save()
 	std::cin.clear();
 	std::cin >> option;
 
+	while (option != 'y' && option != 'n')
+	{
+		std::cout << "Error, I cannot guess if you want to save your current game or not" << std::endl
+			<< "Do you want to save your current game? (y/n)" << std::endl;
+		std::cin.clear();
+		std::cin >> option;
+	}
+
 	if (option == 'y')
 	{
 		std::cout << "How do you want to call your save file? (ENTER for \"" << file << "\")" << std::endl;

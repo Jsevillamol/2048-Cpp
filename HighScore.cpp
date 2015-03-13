@@ -49,10 +49,10 @@ void HighScore::save()
 }
 
 //It shows the array's contents 
-void HighScore::show()
+void HighScore::show(int target, int size)
 {
-	std::cout << "Records (goal = " << int(std::pow(2, game->getGoal()))
-		<< ", size = " << tBoard::getDim() << "):" << std::endl;
+	std::cout << "Records (goal = " << target
+		<< ", size = " << size << "):" << std::endl;
 
 	for (int i = 0; i<N_HIGHSCORES; i++)
 	{

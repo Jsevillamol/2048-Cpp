@@ -49,6 +49,7 @@ public:
 	void change_dim();
 	int choose_size();
 	void run();
+	void end(int key);
 	
 };
 

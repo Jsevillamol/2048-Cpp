@@ -94,12 +94,7 @@ void Game2048::run()
 		update(tDirection(key));
 		drawer.draw();
 	}
-
-	if (key == ESCAPE) savefile.save();
-	else if (highscore.new_highscore())
-	{
-		highscore.show();
-	}
+	end(key);
 }
 
 //updates the board with your movement
@@ -231,4 +226,26 @@ bool Game2048::is_full()
 			if (board(i, j) == 0) full = false;
 		}
 	return full;
+}
+
+void Game2048::end(int key)
+{
+	if (key == ESCAPE) savefile.save();
+
+	else if (max_tile() == goal)
+	{
+		if (highscore.new_highscore())
+		{
+			highscore.show(std::pow(2, getGoal()), tBoard::getDim());
+		}
+		else
+		{
+			std::cout << "congratulations, you've reached the goal, but sorry, you are not among the elite." << std::endl;
+		}
+	}
+	else
+	{
+		std::cout << "You loose... GAME OVER" << std::endl;
+	}
+	std::cout << std::endl;
 }
