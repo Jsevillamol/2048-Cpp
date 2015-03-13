@@ -8,6 +8,19 @@ tBoard::tBoard(int d)
 	create(d);
 }
 
+tBoard::tBoard(const tBoard &oldBoard)
+{
+	create(oldBoard.getDim());
+	
+	for (int i=0; i < oldBoard.getDim(); i++)
+	{
+		for (int j=0; j < oldBoard.getDim(); j++)
+		{
+			Board(i, j) = oldBoard(i, j);
+		}
+	}
+}
+
 tBoard::~tBoard()
 {
 	destroy();
