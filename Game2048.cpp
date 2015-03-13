@@ -62,6 +62,10 @@ void Game2048::upgrade_goal()
 			std::cout << "Error, the goal cannot be over " << int(std::pow(2, MAX_EXP_GOAL)) << std::endl;
 		}
 	} while (newGoal <= goal || newGoal > MAX_EXP_GOAL);
+
+	goal = newGoal;
+
+	std::cout << "Press an arrow" << std::endl;
 }
 
 int Game2048::choose_target()
@@ -133,6 +137,14 @@ void Game2048::inGame(int key)
 
 	if (max_tile() == goal)
 	{
+		if (highscore.new_highscore())
+		{
+			highscore.show(std::pow(2, getGoal()), tBoard::getDim());
+		}
+		else
+		{
+			std::cout << "congratulations, you've reached the goal, but sorry, you are not among the elite." << std::endl;
+		}
 		reach_goal(key);
 	}
 	else end(key);
@@ -302,18 +314,7 @@ void Game2048::end(int key)
 {
 	if (key == ESCAPE) savefile.save();
 
-	else if (max_tile() == goal)
-	{
-		if (highscore.new_highscore())
-		{
-			highscore.show(std::pow(2, getGoal()), tBoard::getDim());
-		}
-		else
-		{
-			std::cout << "congratulations, you've reached the goal, but sorry, you are not among the elite." << std::endl;
-		}
-	}
-	else
+	else if (max_tile() != goal)
 	{
 		std::cout << "You loose... GAME OVER" << std::endl;
 	}
