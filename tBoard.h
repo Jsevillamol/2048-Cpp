@@ -14,6 +14,7 @@ private:
 
 public:
 	tBoard(int d = DIM);
+	tBoard(const tBoard &oldBoard);
 	~tBoard();
 
 	void reset();
