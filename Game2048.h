@@ -44,16 +44,15 @@ public:
 	void setScore(int i){ score = i; }
 
 	void init();
+	void run();
 	void change_goal();
 	void upgrade_goal();
 	int choose_target();
 	void change_dim();
 	int choose_size();
-	void run();
 	void inGame();
 	bool reach_goal();
-	bool ends();
-	
+	bool ends();	
 };
 
 #endif

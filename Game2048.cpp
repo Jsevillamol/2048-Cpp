@@ -24,6 +24,19 @@ void Game2048::init()
 	last_score = 0; score = 0;
 }
 
+//It starts the game
+void Game2048::run()
+{
+	if (!savefile.load()) init();
+	drawer.draw();
+
+	do
+	{
+		inGame();
+
+	} while (reach_goal());
+}
+
 //It asks for an exponent of 2 
 //to make the goal
 void Game2048::change_goal()
@@ -115,19 +128,6 @@ int Game2048::choose_size()
 	return newDim;
 }
 
-//It starts the game
-void Game2048::run()
-{
-	if (!savefile.load()) init();
-	drawer.draw();
-
-	do
-	{
-		inGame();
-
-	} while (reach_goal());
-}
-
 void Game2048::inGame()
 {
 	int key = UP;
@@ -140,39 +140,13 @@ void Game2048::inGame()
 	} 
 }
 
-bool Game2048::ends()
-{
-	if (!moves_left()) 
-	{
-		std::cout << "You loose... GAME OVER" << std::endl << std::endl;
-
-		return false;
-	}
-	else if (max_tile() == goal)
-	{
-		if (highscore.new_highscore())
-		{
-			highscore.show(std::pow(2, getGoal()), tBoard::getDim());
-		}
-		else
-		{
-			std::cout << "Congratulations, you've reached the goal, but sorry, you are not among the elite." << std::endl;
-		}
-		return true;
-	}
-	else
-	{
-		savefile.save();
-
-		return false;
-	}
-}
-
 bool Game2048::reach_goal()
 {
 	if (ends())
 	{
 		int choose;
+
+		linea();
 
 		std::cout << "What do you want to do?:" << std::endl
 			<< "1- Continue (Choose a higher goal)" << std::endl
@@ -203,6 +177,34 @@ bool Game2048::reach_goal()
 		else return false;
 	}
 	else return false;
+}
+
+bool Game2048::ends()
+{
+	if (!moves_left()) 
+	{
+		std::cout << "You loose... GAME OVER" << std::endl << std::endl;
+
+		return false;
+	}
+	else if (max_tile() == goal)
+	{
+		if (highscore.new_highscore())
+		{
+			highscore.show(std::pow(2, getGoal()), tBoard::getDim());
+		}
+		else
+		{
+			std::cout << "Congratulations, you've reached the goal, but sorry, you are not among the elite." << std::endl;
+		}
+		return true;
+	}
+	else
+	{
+		savefile.save();
+
+		return false;
+	}
 }
 
 //updates the board with your movement

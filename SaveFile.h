@@ -11,7 +11,7 @@ private:
 public:
 	SaveFile(Game2048 *g) : game(g) {}
 
-	bool save();
 	bool load();
+	bool save();
 };
 #endif

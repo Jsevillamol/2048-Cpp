@@ -8,6 +8,8 @@
 //It asks you what do you want to do
 int tMenu::menuIni()
 {
+	linea();
+
 	std::cout << "Goal: " << std::pow(2, game.getGoal()) << "   "<< "Size: " 
 		<< tBoard::getDim() << "x" << tBoard::getDim() << std::endl
 		<< "1- Play" << std::endl

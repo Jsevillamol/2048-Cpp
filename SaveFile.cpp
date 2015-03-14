@@ -3,6 +3,50 @@
 #include "SaveFile.h"
 #include "Game2048.h"
 
+//It asks you what file do you want to load
+bool SaveFile::load()
+{
+	int lastDim, lastGoal, lastScore;
+	std::fstream in;
+	std::cout << "Which save file do you want to load? (ENTER for New Game)" << std::endl;
+	std::cin.sync();
+	getline(std::cin, file);
+	if (file != "")
+	{
+		in.open(file, std::fstream::in);
+		if (in.is_open())
+		{
+			in >> lastGoal >> lastDim;
+			//Load the board
+			game->getBoard()->changeDimension(lastDim);
+			game->setGoal(lastGoal);
+			for (int i = 0; i < game->getBoard()->getDim(); i++)
+			{
+				for (int j = 0; j < game->getBoard()->getDim(); j++)
+				{
+					in >> (*(game->getBoard()))(i, j);
+				}
+			}
+
+			in >> lastScore;
+			game->setScore(lastScore);
+
+			in.close();
+			return true;
+		}
+		else
+		{
+			std::cout << "File not found" << std::endl;
+			return false;
+		}
+	}
+	else
+	{
+		file = "savefile.txt";
+		return false;
+	}
+}
+
 //It asks you if you want to save your game, and if you want it, 
 //it asks you how do you want to call the savefile
 bool SaveFile::save()
@@ -50,48 +94,4 @@ bool SaveFile::save()
 		}
 	}
 	return false;
-}
-
-//It asks you what file do you want to load
-bool SaveFile::load()
-{
-	int lastDim, lastGoal, lastScore;
-	std::fstream in;
-	std::cout << "Which save file do you want to load? (ENTER for New Game)" << std::endl;
-	std::cin.sync();
-	getline(std::cin, file);
-	if (file != "")
-	{
-		in.open(file, std::fstream::in);
-		if (in.is_open())
-		{
-			in >> lastGoal >> lastDim;
-			//Load the board
-			game->getBoard()->changeDimension(lastDim);
-			game->setGoal(lastGoal);
-			for (int i = 0; i < game->getBoard()->getDim(); i++)
-			{
-				for (int j = 0; j < game->getBoard()->getDim(); j++)
-				{
-					in >> (*(game->getBoard()))(i, j);
-				}
-			}
-			
-			in >> lastScore;
-			game->setScore(lastScore);
-			
-			in.close();
-			return true;
-		}
-		else
-		{
-			std::cout << "File not found" << std::endl;
-			return false;
-		}
-	}
-	else
-	{
-		file = "savefile.txt";
-		return false;
-	}
 }

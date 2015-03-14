@@ -4,6 +4,7 @@
 #include "Game2048.h"
 #include "HighScore.h"
 #include "tScore.h"
+#include "Utils.h"
 
 //It loads the highscore file, ant put its
 //contents in the array hallOfFame[]
@@ -29,41 +30,6 @@ void HighScore::load(int target, int size)
 			hallOfFame[i] = tScore();
 		}
 	}
-}
-
-//It saves the highscore file
-void HighScore::save()
-{
-	std::string name = "HighScore_" + std::to_string(int(std::pow(2, game->getGoal()))) + "_" +
-		std::to_string(tBoard::getDim()) + "x" + std::to_string(tBoard::getDim()) + ".txt";
-	std::ofstream file(name);
-
-	if (file.is_open())
-	{
-		for (int i = 0; i<N_HIGHSCORES; i++)
-		{
-			file << hallOfFame[i] << std::endl;
-		}
-		file.close();
-	}
-}
-
-//It shows the array's contents 
-void HighScore::show(int target, int size)
-{
-	std::cout << "Records (goal = " << target
-		<< ", size = " << size << "):" << std::endl;
-
-	int i;
-
-	for (i = 0; i<N_HIGHSCORES && hallOfFame[i].name != "???"; i++)
-	{
-		std::cout << std::right << std::setw(2) << 
-		(i + 1) << ": " << hallOfFame[i] << std::endl;
-	}
-	if (i<N_HIGHSCORES) std::cout << "    ???: 0" << std::endl;
-	
-	std::cout << std::endl;
 }
 
 //It checks if the new score is a highscore, 
@@ -99,7 +65,7 @@ std::string HighScore::valid_username()
 	int i = 9, j = 4;
 
 	std::cout << "What is your name?:" << std::endl;
-	std::cin  >> name;
+	std::cin >> name;
 	std::cin.clear();
 
 	while ((name.size() > i) || (name.size() < j))
@@ -115,8 +81,8 @@ std::string HighScore::valid_username()
 			std::cout << " less than " << j;
 		}
 		std::cout << " characters" << std::endl
-		  << "What is your name?:" << std::endl;
-		std::cin  >> name;
+			<< "What is your name?:" << std::endl;
+		std::cin >> name;
 		std::cin.clear();
 	}
 	return name;
@@ -130,6 +96,43 @@ void HighScore::insert(tScore score, int position)
 	{
 		hallOfFame[k] = hallOfFame[k - 1];
 	}
-	
+
 	hallOfFame.highscores[position] = score;
+}
+
+//It shows the array's contents 
+void HighScore::show(int target, int size)
+{
+	linea();
+
+	std::cout << "Records (goal = " << target
+		<< ", size = " << size << "):" << std::endl;
+
+	int i;
+
+	for (i = 0; i<N_HIGHSCORES && hallOfFame[i].name != "???"; i++)
+	{
+		std::cout << std::right << std::setw(2) <<
+			(i + 1) << ": " << hallOfFame[i] << std::endl;
+	}
+	if (i<N_HIGHSCORES) std::cout << "    ???: 0" << std::endl;
+
+	std::cout << std::endl;
+}
+
+//It saves the highscore file
+void HighScore::save()
+{
+	std::string name = "HighScore_" + std::to_string(int(std::pow(2, game->getGoal()))) + "_" +
+		std::to_string(tBoard::getDim()) + "x" + std::to_string(tBoard::getDim()) + ".txt";
+	std::ofstream file(name);
+
+	if (file.is_open())
+	{
+		for (int i = 0; i<N_HIGHSCORES; i++)
+		{
+			file << hallOfFame[i] << std::endl;
+		}
+		file.close();
+	}
 }
