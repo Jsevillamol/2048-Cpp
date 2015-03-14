@@ -50,9 +50,9 @@ public:
 	void change_dim();
 	int choose_size();
 	void run();
-	void inGame(int key);
-	void reach_goal(int key);
-	void end(int key);
+	void inGame();
+	bool reach_goal();
+	bool ends();
 	
 };
 

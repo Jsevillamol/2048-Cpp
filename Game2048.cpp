@@ -121,21 +121,34 @@ void Game2048::run()
 	if (!savefile.load()) init();
 	drawer.draw();
 
-	int key = UP;
+	do
+	{
+		inGame();
 
-	inGame(key);
+	} while (reach_goal());
 }
 
-void Game2048::inGame(int key)
+void Game2048::inGame()
 {
+	int key = UP;
+
 	while (key != ESCAPE && moves_left() && max_tile() < goal)
 	{
 		key = getKey();
 		update(tDirection(key));
 		drawer.draw();
 	} 
+}
 
-	if (max_tile() == goal)
+bool Game2048::ends()
+{
+	if (!moves_left()) 
+	{
+		std::cout << "You loose... GAME OVER" << std::endl << std::endl;
+
+		return false;
+	}
+	else if (max_tile() == goal)
 	{
 		if (highscore.new_highscore())
 		{
@@ -143,40 +156,53 @@ void Game2048::inGame(int key)
 		}
 		else
 		{
-			std::cout << "congratulations, you've reached the goal, but sorry, you are not among the elite." << std::endl;
+			std::cout << "Congratulations, you've reached the goal, but sorry, you are not among the elite." << std::endl;
 		}
-		reach_goal(key);
+		return true;
 	}
-	else end(key);
+	else
+	{
+		savefile.save();
+
+		return false;
+	}
 }
 
-void Game2048::reach_goal(int key)
+bool Game2048::reach_goal()
 {
-	int choose;
-
-	std::cout << "What do you yant to do?:" << std::endl
-		<< "1- Continue (Choose a higher goal)" << std::endl
-		<< "2- Replay (You cannot change the goal or size)" << std::endl
-		<< "0- Exit to main menu" << std::endl << std::endl;
-
-	choose = digitoEntre(0, 2);
-
-	if (choose == 1)
+	if (ends())
 	{
-		if (goal == MAX_EXP_GOAL)
+		int choose;
+
+		std::cout << "What do you want to do?:" << std::endl
+			<< "1- Continue (Choose a higher goal)" << std::endl
+			<< "2- Replay (You cannot change the goal or size)" << std::endl
+			<< "0- Exit to main menu" << std::endl << std::endl;
+
+		choose = digitoEntre(0, 2);
+
+		if (choose == 1)
 		{
-			std::cout << "Error, you cannot reach a higher goal" << std::endl;
+			if (goal == MAX_EXP_GOAL)
+			{
+				std::cout << "Error, you cannot reach a higher goal" << std::endl;
+				return false;
+			}
+			else
+			{
+				upgrade_goal();
+				return true;
+			}
 		}
-		else
+		else if (choose == 2)
 		{
-			upgrade_goal();
-			inGame(key);
+			init();
+			std::cout << "Press an arrow" << std::endl;
+			return true;
 		}
+		else return false;
 	}
-	else if (choose == 2)
-	{
-		run();
-	}
+	else return false;
 }
 
 //updates the board with your movement
@@ -308,15 +334,4 @@ bool Game2048::is_full()
 			if (board(i, j) == 0) full = false;
 		}
 	return full;
-}
-
-void Game2048::end(int key)
-{
-	if (key == ESCAPE) savefile.save();
-
-	else if (max_tile() != goal)
-	{
-		std::cout << "You loose... GAME OVER" << std::endl;
-	}
-	std::cout << std::endl;
 }
