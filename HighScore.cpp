@@ -54,13 +54,15 @@ void HighScore::show(int target, int size)
 	std::cout << "Records (goal = " << target
 		<< ", size = " << size << "):" << std::endl;
 
-	for (int i = 0; i<N_HIGHSCORES && hallOfFame[i].name != "???"; i++)
+	int i;
+
+	for (i = 0; i<N_HIGHSCORES && hallOfFame[i].name != "???"; i++)
 	{
 		std::cout << std::setw(2) << (i + 1) << ": ";			
 		std::cout << hallOfFame[i] << std::endl;
 	}
-
-	std::cout << "    ???: 0" << std::endl;
+	if (i<N_HIGHSCORES) std::cout << "    ???: 0" << std::endl;
+	
 	std::cout << std::endl;
 }
 
