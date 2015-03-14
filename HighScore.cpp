@@ -54,28 +54,13 @@ void HighScore::show(int target, int size)
 	std::cout << "Records (goal = " << target
 		<< ", size = " << size << "):" << std::endl;
 
-	for (int i = 0; i<N_HIGHSCORES; i++)
+	for (int i = 0; i<N_HIGHSCORES && hallOfFame[i].name != "???"; i++)
 	{
-		if (hallOfFame[i].name != "XXX")
-		{
-			if (hallOfFame[i].name != "???")
-			{
-				if (i < 9)
-				{
-					std::cout << " " << (i + 1) << ": ";
-				}
-				else
-				{
-					std::cout << (i + 1) << ": ";
-				}
-			}
-			else
-			{
-				std::cout << "    ";
-			}
-			std::cout << hallOfFame[i] << std::endl;
-		}
+		std::cout << std::setw(2) << (i + 1) << ": ";			
+		std::cout << hallOfFame[i] << std::endl;
 	}
+
+	std::cout << "    ???: 0" << std::endl;
 	std::cout << std::endl;
 }
 
@@ -91,7 +76,14 @@ bool HighScore::new_highscore()
 
 	if (hallOfFame[i] < game->getScore())
 	{
-		insert(i);
+		std::string name;
+		std::cout << "Congratulations! NEW HIGHSCORE!" << std::endl;
+		name = valid_username();
+
+		tScore score(name, game->getScore());
+
+		insert(score, i);
+
 		save();
 		return true;
 	}
@@ -129,24 +121,13 @@ std::string HighScore::valid_username()
 }
 
 //It updates the array's contents
-void HighScore::insert(int position)
+void HighScore::insert(tScore score, int position)
 {
-	int j;
 
 	for (int k = 9; k>position; k--)
 	{
 		hallOfFame[k] = hallOfFame[k - 1];
 	}
-	std::string name;
-	std::cout << "Congratulations! NEW HIGHSCORE!" << std::endl;
-	name = valid_username();
-
-	hallOfFame.highscores[position] = tScore(name, game->getScore());
-
-	for (j = 0; hallOfFame[j].name != "XXX"; j++){}
-
-	if ((j < 9) && (hallOfFame[j - 1].name != "???"))
-	{
-		hallOfFame[j] = tScore("???", 0);
-	}
+	
+	hallOfFame.highscores[position] = score;
 }

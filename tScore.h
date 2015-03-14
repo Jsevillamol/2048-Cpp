@@ -9,7 +9,7 @@ struct tScore
 	std::string name;
 	long int score;
 
-	tScore(std::string n = "XXX", long int s = 0) : name(n), score(s) {}
+	tScore(std::string n = "???", long int s = 0) : name(n), score(s) {}
 	tScore& operator = (const tScore other) { name = other.name; score = other.score; return *this; }
 
 	friend std::ostream& operator << (std::ostream& out, tScore score);

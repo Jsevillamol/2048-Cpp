@@ -17,6 +17,6 @@ public:
 	void show(int target, int size);
 	bool new_highscore();
 	std::string valid_username();
-	void insert(int position);
+	void insert(tScore score, int position);
 };
 #endif
