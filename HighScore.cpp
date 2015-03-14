@@ -58,8 +58,12 @@ void HighScore::show(int target, int size)
 
 	for (i = 0; i<N_HIGHSCORES && hallOfFame[i].name != "???"; i++)
 	{
-		std::cout << std::setw(2) << (i + 1) << ": ";			
-		std::cout << hallOfFame[i] << std::endl;
+		if (i < 9)
+		{
+			std::cout << " ";
+		}
+		std::cout << (i + 1) << ": "			
+		<< hallOfFame[i] << std::endl;
 	}
 	if (i<N_HIGHSCORES) std::cout << "    ???: 0" << std::endl;
 	
