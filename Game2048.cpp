@@ -33,6 +33,41 @@ void Game2048::change_goal()
 	goal = digitoEntre(LOW_EXP_GOAL, MAX_EXP_GOAL);
 }
 
+void Game2048::upgrade_goal()
+{
+	int newGoal;
+
+	do
+	{
+		std::cout << "What exponent of 2 do you choose as goal?" << std::endl;
+
+		std::cin.sync(); //Por si quedan datos basura en el buffer
+		std::cin >> newGoal;
+
+		if (std::cin.fail())
+		{
+			std::cout << "Error, enter a digit" << std::endl;
+			std::cin.clear();
+		}
+		else if (newGoal < goal)
+		{
+			std::cout << "Error, you cannot reach a lower goal than you already reached" << std::endl;
+		}
+		else if (newGoal == goal)
+		{
+			std::cout << "Error, you've just reached this goal" << std::endl;
+		}
+		else if (newGoal > MAX_EXP_GOAL)
+		{
+			std::cout << "Error, the goal cannot be over " << int(std::pow(2, MAX_EXP_GOAL)) << std::endl;
+		}
+	} while (newGoal <= goal || newGoal > MAX_EXP_GOAL);
+
+	goal = newGoal;
+
+	std::cout << "Press an arrow" << std::endl;
+}
+
 int Game2048::choose_target()
 {
 	std::cout << "What exponent of 2 do you choose as goal?" << std::endl;
@@ -86,6 +121,15 @@ void Game2048::run()
 	if (!savefile.load()) init();
 	drawer.draw();
 
+	do
+	{
+		inGame();
+
+	} while (reach_goal());
+}
+
+void Game2048::inGame()
+{
 	int key = UP;
 
 	while (key != ESCAPE && moves_left() && max_tile() < goal)
@@ -93,8 +137,72 @@ void Game2048::run()
 		key = getKey();
 		update(tDirection(key));
 		drawer.draw();
+	} 
+}
+
+bool Game2048::ends()
+{
+	if (!moves_left()) 
+	{
+		std::cout << "You loose... GAME OVER" << std::endl << std::endl;
+
+		return false;
 	}
-	end(key);
+	else if (max_tile() == goal)
+	{
+		if (highscore.new_highscore())
+		{
+			highscore.show(std::pow(2, getGoal()), tBoard::getDim());
+		}
+		else
+		{
+			std::cout << "Congratulations, you've reached the goal, but sorry, you are not among the elite." << std::endl;
+		}
+		return true;
+	}
+	else
+	{
+		savefile.save();
+
+		return false;
+	}
+}
+
+bool Game2048::reach_goal()
+{
+	if (ends())
+	{
+		int choose;
+
+		std::cout << "What do you want to do?:" << std::endl
+			<< "1- Continue (Choose a higher goal)" << std::endl
+			<< "2- Replay (You cannot change the goal or size)" << std::endl
+			<< "0- Exit to main menu" << std::endl << std::endl;
+
+		choose = digitoEntre(0, 2);
+
+		if (choose == 1)
+		{
+			if (goal == MAX_EXP_GOAL)
+			{
+				std::cout << "Error, you cannot reach a higher goal" << std::endl;
+				return false;
+			}
+			else
+			{
+				upgrade_goal();
+				return true;
+			}
+		}
+		else if (choose == 2)
+		{
+			init();
+			std::cout << "Press an arrow" << std::endl;
+			return true;
+		}
+		else return false;
+	}
+	else return false;
 }
 
 //updates the board with your movement
@@ -226,26 +334,4 @@ bool Game2048::is_full()
 			if (board(i, j) == 0) full = false;
 		}
 	return full;
-}
-
-void Game2048::end(int key)
-{
-	if (key == ESCAPE) savefile.save();
-
-	else if (max_tile() == goal)
-	{
-		if (highscore.new_highscore())
-		{
-			highscore.show(std::pow(2, getGoal()), tBoard::getDim());
-		}
-		else
-		{
-			std::cout << "congratulations, you've reached the goal, but sorry, you are not among the elite." << std::endl;
-		}
-	}
-	else
-	{
-		std::cout << "You loose... GAME OVER" << std::endl;
-	}
-	std::cout << std::endl;
 }
